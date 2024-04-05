@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="ai.mealz.marmitonApp.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_recipe_detail" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_store_locator" />
+
+    <fragment
+        android:id="@+id/navigation_my_basket"
+        android:name="ai.mealz.marmitonApp.ui.myBasket.MyBasketFragment"
+        android:label="@string/title_my_basket"
+        tools:layout="@layout/fragment_my_basket" />
+</navigation>
