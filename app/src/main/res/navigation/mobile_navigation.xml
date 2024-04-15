@@ -18,10 +18,16 @@
         tools:layout="@layout/fragment_recipe_detail" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_store_locator"
         android:name="ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/StoreLocator"
         tools:layout="@layout/fragment_store_locator" />
+
+    <fragment
+        android:id="@+id/navigation_recipe_detail"
+        android:name="ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_recipe_detail" />
 
     <fragment
         android:id="@+id/navigation_my_basket"

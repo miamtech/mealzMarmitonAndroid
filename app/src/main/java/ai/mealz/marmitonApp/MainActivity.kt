@@ -10,6 +10,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ai.mealz.marmitonApp.databinding.ActivityMainBinding
+import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
@@ -18,8 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MealzManager.initialize(this, emptyList<Product>().toMutableList(),"test_${UUID.randomUUID()}","25910")
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,10 +32,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_store_locator, R.id.navigation_my_basket
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        MealzManager.initialize(this, emptyList<Product>().toMutableList(),"test_${UUID.randomUUID()}","25910")
     }
 }
