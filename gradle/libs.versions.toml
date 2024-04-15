@@ -3,7 +3,6 @@
 kotlin = "1.7.20"
 mokoRes = "0.20.1"
 androidBuild = "7.2.2"
-kezongFatAar = "1.3.8"
 nexusPublish = "1.1.0"
 mockmp = "1.10.0"
 # Android / Compose

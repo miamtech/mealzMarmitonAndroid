@@ -1,7 +1,9 @@
 package ai.mealz.marmitonApp.ui.recipeDetail
 
+import ai.mealz.core.Mealz
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentRecipeDetailBinding
+import ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment
 import ai.mealz.sdk.components.recipeDetail.RecipeDetail
 import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import android.os.Bundle
@@ -31,12 +33,16 @@ class RecipeDetailFragment : DialogFragment() {
 
         _binding = FragmentRecipeDetailBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        root.findViewById<StoreLocatorButton>(R.id.recipe_detail_store_locator).bind {
-            findNavController().navigate(R.id.navigation_notifications)
-            dialog?.dismiss()
+        Mealz.user.setSignInRedirection {
+            dismiss()
+        }
+        Mealz.user.setStoreLocatorRedirection {
+            dismiss()
+            findNavController().navigate(R.id.navigation_store_locator)
+
         }
         root.findViewById<RecipeDetail>(R.id.recipe_detail)
-            .bind("23",{},{},{})
+            .bind("25",{},{},{})
         return root
     }
 
