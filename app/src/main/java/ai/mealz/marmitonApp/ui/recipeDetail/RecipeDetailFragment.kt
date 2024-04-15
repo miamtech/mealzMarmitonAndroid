@@ -39,6 +39,7 @@ class RecipeDetailFragment : DialogFragment() {
         Mealz.user.setStoreLocatorRedirection {
             dismiss()
             findNavController().navigate(R.id.navigation_store_locator)
+
         }
         root.findViewById<RecipeDetail>(R.id.recipe_detail)
             .bind("25",{},{},{})
