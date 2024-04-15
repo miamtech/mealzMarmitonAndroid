@@ -3,11 +3,13 @@ package ai.mealz.marmitonApp.ui.recipeDetail
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentRecipeDetailBinding
 import ai.mealz.sdk.components.recipeDetail.RecipeDetail
+import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 
 
 class RecipeDetailFragment : DialogFragment() {
@@ -21,8 +23,6 @@ class RecipeDetailFragment : DialogFragment() {
     override fun getTheme(): Int {
         return R.style.DialogTheme
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,7 +31,10 @@ class RecipeDetailFragment : DialogFragment() {
 
         _binding = FragmentRecipeDetailBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        root.findViewById<StoreLocatorButton>(R.id.recipe_detail_store_locator).bind {
+            findNavController().navigate(R.id.navigation_notifications)
+            dialog?.dismiss()
+        }
         root.findViewById<RecipeDetail>(R.id.recipe_detail)
             .bind("23",{},{},{})
         return root
