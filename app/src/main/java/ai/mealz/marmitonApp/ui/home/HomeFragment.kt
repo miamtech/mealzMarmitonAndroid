@@ -1,5 +1,6 @@
 package ai.mealz.marmitonApp.ui.home
 
+import ai.mealz.core.Mealz
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentHomeBinding
 import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
 
       root.findViewById<Button>(R.id.button_test)
             .setOnClickListener {
+                Mealz.user.setStoreId("25910")
                 showDialog()
             }
 
