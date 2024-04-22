@@ -4,20 +4,53 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mealz components kit</title>
-  <!-- <script type="module" src="/src/main.js"></script> -->
-  <script type="module" src="mealz-components.min.js"></script>
+  <title>MY WEBVIEW</title>
+
+  <!-- LOAD STORE LOCATOR SCRIPT HERE -->
+  <script type="module" src="https://unpkg.com/mealz-components/dist/store-locator/store-locator.min.js"></script>
 </head>
 <body>
-  <div style="padding: 20px 0px; border-bottom: solid 1px silver; height: 1000px;">
-    <h2>Store locator</h2>
-    <mealz-store-locator posId="42"></mealz-store-locator>
-    <script>
+<!-- Will show store locator on page load -->
+<mealz-store-locator show></mealz-store-locator>
+<script>
       const storeLocatorElement = document.querySelector('mealz-store-locator');
       storeLocatorElement.addEventListener('posIdChange', (e) => {
         console.log('POS selected!', e.detail.posId);
+        var jsonObject = {
+            message: "posIdChange",
+            value:  e.detail.posId
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
       })
+
+      storeLocatorElement.addEventListener('showChange', (e) => {
+        console.log('showChange', e.detail.show);
+
+        var jsonObject = {
+            message: "showChange",
+            value:  e.detail.show
+        };
+
+        Mealz.postMessage(JSON.stringify(jsonObject));
+      })
+
+      storeLocatorElement.getByAddress = function(address, radius) {
+        const getByAddressRequest = new XMLHttpRequest();
+        const url = `https://api-uat.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier`;
+        getByAddressRequest.open('GET', url);
+
+        return {
+          subscribe: function(callback) {
+            console.debug('[Mealz components] Request getByAddress()');
+            getByAddressRequest.onload = () => {
+              const resp = JSON.parse(getByAddressRequest.response);
+              console.debug('[Mealz components] Response received', resp);
+              callback(resp);
+            }
+            getByAddressRequest.send();
+          }
+        };
+      };
     </script>
-  </div>
 </body>
 </html>

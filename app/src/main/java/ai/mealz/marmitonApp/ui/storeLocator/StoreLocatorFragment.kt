@@ -2,17 +2,19 @@ package ai.mealz.marmitonApp.ui.storeLocator
 
 import ai.mealz.core.Mealz
 import ai.mealz.marmitonApp.R
+import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
-import android.annotation.SuppressLint
-import android.widget.Button
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
-import org.json.JSONObject
+import androidx.fragment.app.Fragment
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+
 
 class StoreLocatorFragment() : Fragment() {
 
@@ -30,14 +32,6 @@ class StoreLocatorFragment() : Fragment() {
     ): View {
         _binding = FragmentStoreLocatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        root.findViewById<Button>(R.id.button_store_A)
-            .setOnClickListener {
-                Mealz.user.setStoreId("25910")
-            }
-        root.findViewById<Button>(R.id.button_store_B)
-            .setOnClickListener {
-                Mealz.user.setStoreId("25910")
-            }
 
         val myWebView: WebView = root.findViewById(R.id.webview)
         val webViewSettings = myWebView.settings;
@@ -46,9 +40,12 @@ class StoreLocatorFragment() : Fragment() {
         webViewSettings.allowUniversalAccessFromFileURLs = true
         webViewSettings.allowFileAccess = true
         webViewSettings.allowContentAccess = true
-        Companion.onSelectStore?.let { JsObjcet(it) }?.let { myWebView.addJavascriptInterface(it, "Mealz") }
+        onSelectStore = {
+            println(it)
+        }
+        myWebView.addJavascriptInterface(MyJavaScriptInterface(), "Mealz")
         myWebView.loadUrl("file:///android_asset/index.html");
-
+        
         return root
     }
 
@@ -58,16 +55,26 @@ class StoreLocatorFragment() : Fragment() {
     }
 
     companion object {
-        var onSelectStore: ((String) -> Void)? = null
+        var onSelectStore: ((String) -> Unit)? = null
     }
 }
 
-class JsObjcet(var onSelectStore: (String) -> Void) {
+class MyJavaScriptInterface() {
     @JavascriptInterface
-    fun postMessage(message: String) {
-        println(message)
-        val storeId = JSONObject(message).get("id") as String
-        Mealz.user.setStoreId(storeId)
-        onSelectStore(storeId)
+    fun postMessage(reciveMessage: String) {
+        Log.d("WebView", "Message reçu depuis la WebView : $reciveMessage")
+        try {
+            val data = Json.decodeFromString<Map<String, String>>(reciveMessage)
+            val message = data["message"]
+            val value = data["value"]
+
+            if (message == "posIdChange") {
+                if (value != null) {
+                    Mealz.user.setStoreId(value)
+                }
+            }
+        }catch (e: Exception) {
+            println("Erreur lors de la désérialisation JSON: $e")
+        }
     }
 }
