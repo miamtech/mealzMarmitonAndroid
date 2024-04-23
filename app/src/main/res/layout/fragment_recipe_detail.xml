@@ -9,17 +9,12 @@
     android:minHeight="3000dp"
     android:orientation="vertical"
     tools:context=".ui.recipeDetail.RecipeDetailFragment">
-    <ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
-        android:id="@+id/recipe_detail_store_locator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton>
 
-    <ai.mealz.sdk.components.recipeDetail.RecipeDetail
+    <ai.mealz.marmiton.config.components.mealzJourney.MealzJourney
         android:id="@+id/recipe_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
         android:paddingVertical="24dp"
-        ></ai.mealz.sdk.components.recipeDetail.RecipeDetail>
+        ></ai.mealz.marmiton.config.components.mealzJourney.MealzJourney>
 </LinearLayout>

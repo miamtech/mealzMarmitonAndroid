@@ -14,6 +14,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -37,11 +40,15 @@ class HomeFragment : Fragment() {
 
       root.findViewById<Button>(R.id.button_test)
             .setOnClickListener {
-                Mealz.user.setStoreId("25910")
                 showDialog()
             }
 
         val textView: TextView = binding.textHome
+        textView.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch{
+                homeViewModel.getPrice(it)
+            }
+        }
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }

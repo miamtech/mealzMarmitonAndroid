@@ -39,7 +39,7 @@ class MiamTemplateManager {
                             view =  DefaultCounter()
                         }
                     }
-                    gapBetweenProducts = 8
+                    gapBetweenProducts = 16
                 }
             }
         }

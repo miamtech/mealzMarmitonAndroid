@@ -48,14 +48,14 @@ class DefaultCounter : Counter {
                 return localCount + delta
             }
 
-            fun increase() {
+            fun decrease () {
                 changedValue(localCount, 1)?.let { newCount ->
                     localCount = newCount
                     params.onCounterChanged(newCount)
                 }
             }
 
-            fun decrease() {
+            fun increase() {
                 changedValue(localCount, -1)?.let { newCount ->
                     localCount = newCount
                     params.onCounterChanged(newCount)
