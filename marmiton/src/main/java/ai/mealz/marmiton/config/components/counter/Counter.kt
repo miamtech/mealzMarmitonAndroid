@@ -85,7 +85,6 @@ fun Plus(increase: () -> Unit, isDisable: Boolean) {
         enabled = !isDisable,
         modifier = Modifier
             .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))
-
     ) {
         Image(
             painter = painterResource(Image.plus),

@@ -3,6 +3,7 @@ package ai.mealz.marmitonApp.config
 import ai.mealz.core.Mealz
 import ai.mealz.core.handler.LogHandler
 import ai.mealz.core.init.basket
+import ai.mealz.core.init.option
 import ai.mealz.core.init.sdkRequirement
 import ai.mealz.core.init.subscriptions
 import ai.mealz.core.model.SupplierProduct
@@ -40,9 +41,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
     private var _basketMealzFlow = MutableStateFlow<BasketEvent>(BasketEvent.Loading)
     val basketMealzFlow = _basketMealzFlow.asStateFlow()
 
-    val supplierKey = "ewoJInN1cHBsaWVyX2lkIjogIjciLAoJInBsYXVzaWJsZV9kb21haW5lIjogIm1pYW0uY291cnNlc3UuYXBwIiwKCSJtaWFtX29yaWdpbiI6ICJjb3Vyc2VzdSIsCgkib3JpZ2luIjogIm1pYW0uY291cnNlc3UuYXBwIiwKCSJtaWFtX2Vudmlyb25tZW50IjogIlBST0QiCn0"
-
-
+    val supplierKey = "ewogICAgICAgICJwcm92aWRlcl9pZCI6ICJtYXJtaXRvbiIKCSJwbGF1c2libGVfZG9tYWluZSI6ICJtaWFtLm1hcm1pdG9uLmFwcCIsCgkibWlhbV9vcmlnaW4iOiAibWFybWl0b24iLAoJIm9yaWdpbiI6ICJtaWFtLm1hcm1pdG9uLmFwcCIsCgkibWlhbV9lbnZpcm9ubWVudCI6ICJVQVQiCn0="
 
     /** should not be changed during session */
     private var enableLike: Boolean = true
@@ -62,8 +61,8 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         startMealz(this)
         MiamTemplateManager()
         isInitialized = true
-        setUser(userId)
-        setStore(storeId)
+        //setUser(userId)
+        //setStore(storeId)
         setEnableLike(enableLike)
         setUserProfiling(enableUserProfiling)
         setBasket(basket)
@@ -79,7 +78,6 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
                 _basketMealzRecipeCountFlow.emit(it)
             }
         }
-
     }
 
     private fun startMealz(mealzManager: MealzManager) {
@@ -88,14 +86,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
                 key = supplierKey
                 context = applicationContext
             }
-            subscriptions {
-                basket  {
-                    // Listen to Miam's basket updates
-                    subscribe(mealzManager)
-                    // Push client basket notifications
-                    register(mealzManager)
-                }
-            }
+            option { isAnonymousModeEnabled =  true}
         }
     }
 
@@ -224,6 +215,4 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
             }
         }
     }
-
-
 }

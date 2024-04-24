@@ -32,7 +32,7 @@ class StoreLocatorFragment : Fragment() {
             }
         root.findViewById<Button>(R.id.button_store_B)
             .setOnClickListener {
-                Mealz.user.setStoreId("25911")
+                Mealz.user.setStoreId("25910")
             }
         return root
     }
