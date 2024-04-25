@@ -39,13 +39,11 @@ android {
 }
 
 dependencies {
+
     implementation("ai.mealz.core:mealzcore")
     implementation("ai.mealz.android:sdk")
-    //implementation(libs.mealz.android)
-    //implementation(libs.mealz.core)
     implementation(project(mapOf("path" to ":marmiton")))
     implementation(libs.squareup.retrofit2)
-   // implementation("androidx.core:core-ktx:1.9.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")

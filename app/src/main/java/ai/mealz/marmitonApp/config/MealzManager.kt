@@ -58,7 +58,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
 
         if (isInitialized) return@apply
         applicationContext = appContext.applicationContext
-        startMealz(this)
+        startMealz()
         MiamTemplateManager()
         isInitialized = true
         //setUser(userId)
@@ -80,7 +80,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         }
     }
 
-    private fun startMealz(mealzManager: MealzManager) {
+    private fun startMealz() {
         Mealz.Core() {
             sdkRequirement {
                 key = supplierKey

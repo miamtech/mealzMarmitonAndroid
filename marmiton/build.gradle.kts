@@ -39,11 +39,8 @@ android {
 }
 
 dependencies {
-    //api(libs.mealz.android)
-    //api(libs.mealz.core)
     api("ai.mealz.core:mealzcore")
     api("ai.mealz.android:sdk")
-
     api(libs.android.material)
 
     api(libs.compose.compiler)
