@@ -22,10 +22,6 @@ class MealzWebView @JvmOverloads constructor(
 ): AbstractComposeView(context, attrs, defStyleAttr) {
 
     var webview : WebView? = null
-    fun bind(onSelectStore: ((String) -> Unit)) {
-        this.onSelectStore = onSelectStore
-    }
-
     var onSelectStore: ((String) -> Unit)? = null
 
     @Composable
@@ -59,7 +55,6 @@ class MyJavaScriptInterface (onSelectStore: ((String) -> Unit)?) {
     var onSelectStore: ((String) -> Unit)? = onSelectStore
     @JavascriptInterface
     fun postMessage(reciveMessage: String) {
-        Log.d("WebView", "Message reçu depuis la WebView : $reciveMessage")
         try {
             val data = Json.decodeFromString<Map<String, String>>(reciveMessage)
             val message = data["message"]

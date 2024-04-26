@@ -39,9 +39,6 @@ class StoreLocatorFragment() : Fragment() {
         val root: View = binding.root
 
         val myWebView: MealzWebView = root.findViewById(R.id.store_locator)
-        /*myWebView.bind {
-
-        }*/
         myWebView.onSelectStore = { storeId ->
             Log.d("WebView callback", "Message reçu depuis la WebView : $storeId")
         }
