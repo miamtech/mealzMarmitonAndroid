@@ -4,6 +4,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_my_basket">Mon panier</string>
+    <string name="title_store">Choix du magasin</string>
     <string name="StoreLocator">Choix du magasin</string>
-    <string name="title_store">Magasin</string>
 </resources>
