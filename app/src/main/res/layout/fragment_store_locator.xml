@@ -11,24 +11,13 @@
     android:gravity="center"
     tools:context=".ui.storeLocator.StoreLocatorFragment"
     tools:ignore="MissingDefaultResource">
-    <Button
-        android:id="@+id/button_store_A"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Magasin A"
-        tools:layout_editor_absoluteX="111dp"
-        tools:layout_editor_absoluteY="187dp" />
-    <Button
-        android:id="@+id/button_store_B"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Magasin B"
-        tools:layout_editor_absoluteX="111dp"
-        tools:layout_editor_absoluteY="187dp" />
 
-    <WebView
-        android:id="@+id/webview"
+
+
+    <ai.mealz.marmiton.config.components.webview.MealzWebView
+        android:id="@+id/store_locator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        ></ai.mealz.marmiton.config.components.webview.MealzWebView>
 
 </LinearLayout>
