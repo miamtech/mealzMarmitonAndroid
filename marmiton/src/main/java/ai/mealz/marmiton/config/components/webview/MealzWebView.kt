@@ -23,6 +23,7 @@ class MealzWebView @JvmOverloads constructor(
 
     var webview : WebView? = null
     var onSelectStore: ((String) -> Unit)? = null
+    var urlToLoad: String? = null
 
     @Composable
     override fun Content() {
@@ -43,7 +44,7 @@ class MealzWebView @JvmOverloads constructor(
                 }
                 return@AndroidView webview!!
             }, update = {
-                it.loadUrl("file:///android_asset/index.html");
+                urlToLoad?.let { it1 -> it.loadUrl(it1) };
                 webview?.addJavascriptInterface(MyJavaScriptInterface(onSelectStore = onSelectStore), "Mealz")
 
             })
