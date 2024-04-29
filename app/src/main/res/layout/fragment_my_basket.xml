@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <ai.mealz.sdk.components.myBasket.MyBasket
+  <ai.mealz.marmiton.config.components.MyBasketJourney.MyBasketJourney
       android:id="@+id/my_basket"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-  </ai.mealz.sdk.components.myBasket.MyBasket>
+  </ai.mealz.marmiton.config.components.MyBasketJourney.MyBasketJourney>
 </androidx.constraintlayout.widget.ConstraintLayout>

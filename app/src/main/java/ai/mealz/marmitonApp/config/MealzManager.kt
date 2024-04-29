@@ -62,7 +62,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         MiamTemplateManager()
         isInitialized = true
         //setUser(userId)
-        //setStore(storeId)
+        setStore(storeId)
         setEnableLike(enableLike)
         setUserProfiling(enableUserProfiling)
         setBasket(basket)
