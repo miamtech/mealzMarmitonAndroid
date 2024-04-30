@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 
 class HomeFragment : Fragment() {
@@ -52,6 +54,20 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        val hasStoreSwitch: Switch = root.findViewById<Switch>(R.id.change_store_switch)
+        hasStoreSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) Mealz.user.setStoreId("25910")
+            else Mealz.user.setStoreId("")
+        }
+
+        val hasUserSwitch: Switch = root.findViewById<Switch>(R.id.change_user_switch)
+        hasUserSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) Mealz.user.updateUserId("test_${UUID.randomUUID()}")
+            else Mealz.user.updateUserId("")
+        }
+
+
         return root
     }
 
@@ -60,6 +76,7 @@ class HomeFragment : Fragment() {
         val newFragment: DialogFragment = RecipeDetailFragment()
         newFragment.show(ft, "dialog")
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
