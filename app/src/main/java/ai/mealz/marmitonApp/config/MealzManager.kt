@@ -52,7 +52,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         userId: String,
         storeId: String
     ) = apply {
-
+        
         if (userId.isBlank()) throw Exception("userId Cannot be null or empty or blank")
         if (storeId.isBlank()) throw Exception("storeId Cannot be null or empty or blank")
 
