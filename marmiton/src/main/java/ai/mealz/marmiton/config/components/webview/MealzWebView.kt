@@ -2,7 +2,6 @@ package ai.mealz.marmiton.config.components.webview
 import ai.mealz.core.Mealz
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import androidx.compose.runtime.Composable
@@ -64,7 +63,7 @@ class MyJavaScriptInterface (onSelectStore: ((String) -> Unit)?) {
                     val posId = data["posId"]
 
                     posId?.let {
-                        Mealz.user.setStorePosId(it)
+                        Mealz.user.setStoreWithMealzId(it)
                         this.onSelectStore?.let { it(posId) }
                     }
             }
