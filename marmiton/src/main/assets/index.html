@@ -15,10 +15,12 @@
 <script>
       const storeLocatorElement = document.querySelector('mealz-store-locator');
       storeLocatorElement.addEventListener('posIdChange', (e) => {
-        console.log('POS selected!', e.detail.posId);
+        console.log('POS selected!', JSON.stringify(e.detail));
         var jsonObject = {
             message: "posIdChange",
-            value:  e.detail.posId
+            posId : e.detail.posId,
+            posExtId : e.detail.posExtId,
+            supplierId : e.detail.supplierId
         };
         Mealz.postMessage(JSON.stringify(jsonObject));
       })
@@ -36,7 +38,7 @@
 
       storeLocatorElement.getByAddress = function(address, radius) {
         const getByAddressRequest = new XMLHttpRequest();
-        const url = `https://api-uat.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier`;
+        const url = `https://api.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier`;
         getByAddressRequest.open('GET', url);
 
         return {
