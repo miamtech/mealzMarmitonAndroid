@@ -102,7 +102,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
      */
     fun setStore(id: String) = apply {
         storeId = id
-        Mealz.user.setStoreId(storeId)
+        Mealz.user.setStorePosId(storeId)
     }
 
     /**

@@ -59,13 +59,14 @@ class MyJavaScriptInterface (onSelectStore: ((String) -> Unit)?) {
         try {
             val data = Json.decodeFromString<Map<String, String>>(reciveMessage)
             val message = data["message"]
-            val value = data["value"]
 
             if (message == "posIdChange") {
-                if (value != null) {
-                    Mealz.user.setStoreId(value)
-                    this.onSelectStore?.let { it(value) }
-                }
+                    val posId = data["posId"]
+
+                    posId?.let {
+                        Mealz.user.setStorePosId(it)
+                        this.onSelectStore?.let { it(posId) }
+                    }
             }
         }catch (e: Exception) {
             println("Erreur lors de la désérialisation JSON: $e")
