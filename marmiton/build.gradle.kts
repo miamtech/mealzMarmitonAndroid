@@ -81,7 +81,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "ia.mealz.marmiton"
             artifactId = "mealz-marmiton"
-            version = "4.1.0-ALPHA"
+            version = "4.1.0-alpha"
 
             afterEvaluate {
                 from(components["release"])
