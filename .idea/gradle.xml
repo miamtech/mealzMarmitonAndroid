@@ -4,32 +4,10 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT">
-            <builds>
-              <build path="$PROJECT_DIR$/../MealzCore" name="MealzCore">
-                <projects>
-                  <project path="$PROJECT_DIR$/../MealzCore" />
-                  <project path="$PROJECT_DIR$/../MealzCore/mealzcore" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/../MealzAndroid" name="MealzAndroid">
-                <projects>
-                  <project path="$PROJECT_DIR$/../MealzAndroid" />
-                  <project path="$PROJECT_DIR$/../MealzAndroid/sdk" />
-                </projects>
-              </build>
-            </builds>
-          </compositeBuild>
-        </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../MealzAndroid" />
-            <option value="$PROJECT_DIR$/../MealzAndroid/sdk" />
-            <option value="$PROJECT_DIR$/../MealzCore" />
-            <option value="$PROJECT_DIR$/../MealzCore/mealzcore" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/marmiton" />
