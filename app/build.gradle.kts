@@ -39,9 +39,8 @@ android {
 }
 
 dependencies {
-
-    implementation("ai.mealz.core:mealzcore")
-    implementation("ai.mealz.android:sdk")
+    implementation("ai.mealz.core:mealz-core:4.1.0-alpha")
+    implementation("ai.mealz.android:mealz-android:4.1.0-alpha")
     implementation(project(mapOf("path" to ":marmiton")))
     implementation(libs.squareup.retrofit2)
     implementation("com.google.android.material:material:1.11.0")

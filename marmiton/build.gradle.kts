@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    `maven-publish`
 }
 
 android {
@@ -39,16 +40,25 @@ android {
 }
 
 dependencies {
-    api("ai.mealz.core:mealzcore")
-    api("ai.mealz.android:sdk")
+    api("ai.mealz.core:mealz-core:4.1.0-alpha")
+    api("ai.mealz.android:mealz-android:4.1.0-alpha")
     api(libs.android.material)
-
+    api(libs.ktor.client.serialization)
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.datetime)
+    api(libs.ktor.client.core)
+    api(libs.ktor.client.encoding)
+    api(libs.ktor.client.serialization)
+    api(libs.ktor.client.contentNegotiation)
+    api(libs.ktor.client.logging)
+    api(libs.koin.core)
+    api(libs.kotlinx.datetime)
+    api(libs.ktor.client.android)
     api(libs.compose.compiler)
     api(libs.compose.ui.tooling)
     api(libs.compose.ui.core)
     api(libs.compose.foundation)
     api(libs.compose.material.core)
-
     api(libs.koin.core)
     api(libs.koin.android)
     api(libs.coil.compose)
@@ -64,4 +74,18 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "ia.mealz.marmiton"
+            artifactId = "mealz-marmiton"
+            version = "4.1.0-ALPHA"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
