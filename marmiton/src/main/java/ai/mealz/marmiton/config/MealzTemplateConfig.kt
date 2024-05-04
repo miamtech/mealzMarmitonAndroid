@@ -3,6 +3,7 @@ package ai.mealz.marmiton.config
 import ai.mealz.marmiton.R
 import ai.mealz.marmiton.config.mealzTemplates.DefaultCounter
 import ai.mealz.marmiton.config.mealzTemplates.EmptyTemplate
+import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.MarmitonRecipeDetailFooter
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.RecipeDetailInfo
 import ai.mealz.sdk.components.MiamTheme
 import ai.mealz.sdk.components.MiamTheme.defaultViews
@@ -39,6 +40,7 @@ class MiamTemplateManager {
                             view =  DefaultCounter()
                         }
                     }
+                    footer { view = MarmitonRecipeDetailFooter() }
                     gapBetweenProducts = 16
                 }
             }

@@ -26,7 +26,7 @@ class MyBasketFragment : Fragment() {
 
         _binding = FragmentMyBasketBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        root.findViewById<MyBasket>(R.id.my_basket).bind {  }
+        root.findViewById<MyBasket>(R.id.my_basket)
         return root
     }
 

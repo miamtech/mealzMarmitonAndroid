@@ -2,10 +2,8 @@ package ai.mealz.marmitonApp.config
 
 import ai.mealz.core.Mealz
 import ai.mealz.core.handler.LogHandler
-import ai.mealz.core.init.basket
 import ai.mealz.core.init.option
 import ai.mealz.core.init.sdkRequirement
-import ai.mealz.core.init.subscriptions
 import ai.mealz.core.model.SupplierProduct
 import ai.mealz.core.subscription.publisher.BasketPublisher
 import ai.mealz.core.subscription.subscriber.BasketSubscriber
@@ -52,17 +50,17 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         userId: String,
         storeId: String
     ) = apply {
-
+        
         if (userId.isBlank()) throw Exception("userId Cannot be null or empty or blank")
         if (storeId.isBlank()) throw Exception("storeId Cannot be null or empty or blank")
 
         if (isInitialized) return@apply
         applicationContext = appContext.applicationContext
-        startMealz(this)
+        startMealz()
         MiamTemplateManager()
         isInitialized = true
         //setUser(userId)
-        //setStore(storeId)
+        setStore(storeId)
         setEnableLike(enableLike)
         setUserProfiling(enableUserProfiling)
         setBasket(basket)
@@ -80,7 +78,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
         }
     }
 
-    private fun startMealz(mealzManager: MealzManager) {
+    private fun startMealz() {
         Mealz.Core() {
             sdkRequirement {
                 key = supplierKey
@@ -102,7 +100,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main), Basket
      */
     fun setStore(id: String) = apply {
         storeId = id
-        Mealz.user.setStoreId(storeId)
+        Mealz.user.setStoreWithMealzId(storeId)
     }
 
     /**

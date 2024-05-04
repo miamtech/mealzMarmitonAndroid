@@ -1,16 +1,26 @@
 package ai.mealz.marmitonApp.ui.storeLocator
 
 import ai.mealz.core.Mealz
+import ai.mealz.marmiton.config.components.webview.MealzWebView
 import ai.mealz.marmitonApp.R
+import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
-import android.widget.Button
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import androidx.fragment.app.viewModels
 
-class StoreLocatorFragment : Fragment() {
+
+class StoreLocatorFragment() : Fragment() {
 
     private var _binding: FragmentStoreLocatorBinding? = null
 
@@ -18,22 +28,21 @@ class StoreLocatorFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
+    @SuppressLint("JavascriptInterface")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentStoreLocatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        root.findViewById<Button>(R.id.button_store_A)
-            .setOnClickListener {
-                Mealz.user.setStoreId("25910")
-            }
-        root.findViewById<Button>(R.id.button_store_B)
-            .setOnClickListener {
-                Mealz.user.setStoreId("25910")
-            }
+
+        val myWebView: MealzWebView = root.findViewById(R.id.store_locator)
+        myWebView.urlToLoad = "file:///android_asset/index.html"
+        myWebView.onSelectStore = { storeId ->
+            Log.d("WebView callback", "Message reçu depuis la WebView : $storeId")
+        }
         return root
     }
 
@@ -41,4 +50,6 @@ class StoreLocatorFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
