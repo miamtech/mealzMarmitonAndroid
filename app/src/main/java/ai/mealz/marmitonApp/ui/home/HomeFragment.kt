@@ -1,9 +1,11 @@
 package ai.mealz.marmitonApp.ui.home
 
 import ai.mealz.core.Mealz
+import ai.mealz.core.data.repository.SP_NAME
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentHomeBinding
 import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +42,9 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        Mealz.user.setStoreLocatorRedirection {
+            findNavController().navigate(R.id.navigation_store_locator)
+        }
 
       root.findViewById<Button>(R.id.button_test)
             .setOnClickListener {
@@ -55,18 +61,21 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
 
-        val hasStoreSwitch: Switch = root.findViewById<Switch>(R.id.change_store_switch)
+        val hasStoreSwitch: Switch = root.findViewById(R.id.change_store_switch)
         hasStoreSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) Mealz.user.setStoreId("25910")
-            else Mealz.user.setStoreId("")
+            if (isChecked) Mealz.user.setStoreWithMealzId("22509")
         }
 
-        val hasUserSwitch: Switch = root.findViewById<Switch>(R.id.change_user_switch)
+        val hasUserSwitch: Switch = root.findViewById(R.id.change_user_switch)
         hasUserSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) Mealz.user.updateUserId("test_${UUID.randomUUID()}")
             else Mealz.user.updateUserId("")
         }
 
+        val clearSharedMemory : Button = root.findViewById(R.id.button_clear)
+        clearSharedMemory.setOnClickListener {
+            context?.getSharedPreferences("MEALZ_CORE", 0)?.edit()?.clear()?.commit()
+        }
 
         return root
     }
