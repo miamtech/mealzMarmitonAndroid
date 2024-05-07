@@ -6,6 +6,7 @@ import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 
 
 class StoreLocatorFragment() : Fragment() {
@@ -29,7 +31,7 @@ class StoreLocatorFragment() : Fragment() {
     private val binding get() = _binding!!
 
 
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint("JavascriptInterface", "RestrictedApi")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,8 +42,11 @@ class StoreLocatorFragment() : Fragment() {
 
         val myWebView: MealzWebView = root.findViewById(R.id.store_locator)
         myWebView.urlToLoad = "file:///android_asset/index.html"
-        myWebView.onSelectStore = { storeId ->
-            Log.d("WebView callback", "Message reçu depuis la WebView : $storeId")
+        myWebView.onSelectStore = { _ ->
+            val mainHandler = context?.mainLooper?.let { Handler(it) }
+            mainHandler?.post {
+                findNavController().popBackStack()
+            }
         }
         return root
     }
