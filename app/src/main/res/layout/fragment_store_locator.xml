@@ -14,10 +14,10 @@
 
 
 
-    <ai.mealz.marmiton.config.components.webview.MealzWebView
+    <ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
         android:id="@+id/store_locator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ></ai.mealz.marmiton.config.components.webview.MealzWebView>
+        ></ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView>
 
 </LinearLayout>
