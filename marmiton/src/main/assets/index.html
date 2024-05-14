@@ -8,6 +8,7 @@
 
   <!-- LOAD STORE LOCATOR SCRIPT HERE -->
   <script type="module" src="https://unpkg.com/mealz-components/dist/store-locator/store-locator.min.js"></script>
+<!--  <script type="module" src="store-locator.min.js"></script>--> <!-- for testing -->
 </head>
 <body>
 <!-- Will show store locator on page load -->
@@ -20,7 +21,8 @@
             message: "posIdChange",
             posId : e.detail.posId,
             posExtId : e.detail.posExtId,
-            supplierId : e.detail.supplierId
+            supplierId : e.detail.supplierId,
+            posName : e.detail.posName
         };
         Mealz.postMessage(JSON.stringify(jsonObject));
       })
