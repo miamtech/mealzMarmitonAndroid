@@ -1,5 +1,7 @@
 package ai.mealz.marmiton.config.components.webview
 import ai.mealz.core.Mealz
+import ai.mealz.core.di.MealzDI
+import ai.mealz.core.services.Analytics
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class MealzWebView @JvmOverloads constructor(
+class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -43,13 +45,13 @@ class MealzWebView @JvmOverloads constructor(
                     this.post {
                         run {
                             this.loadUrl(urlToLoad ?: error("Should pass an url in webview"))
+                            MealzDI.analyticsService.sendEvent(Analytics.EVENT_PAGEVIEW, "/locator", Analytics.PlausibleProps())
                             this.addJavascriptInterface(
                                 MyJavaScriptInterface(onSelectStore = onSelectStore),
                                 "Mealz"
                             )
                         }
                     }
-
                 }
             })
         }
@@ -66,8 +68,11 @@ class MealzWebView @JvmOverloads constructor(
                 val message = data["message"]
 
                 if (message == "posIdChange") {
-                    data["posId"]?.let {posId ->
+                    data["posId"]?.let { posId ->
                         Mealz.user.setStoreWithMealzId(posId)
+                        data["posName"]?.let { posName ->
+                            MealzDI.analyticsService.sendEvent(Analytics.EVENT_POS_SELECTED, "", Analytics.PlausibleProps(pos_id = posId, pos_name = posName))
+                        }
                         this.onSelectStore?.let { it(posId) }
                     }
                 }
