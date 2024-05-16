@@ -1,8 +1,8 @@
 [versions]
 # Plugins
-kotlin = "1.7.20"
+kotlin = "1.9.22"
 mokoRes = "0.20.1"
-androidBuild = "7.2.2"
+androidBuild = "8.2.0"
 nexusPublish = "1.1.0"
 mockmp = "1.10.0"
 # Android / Compose
