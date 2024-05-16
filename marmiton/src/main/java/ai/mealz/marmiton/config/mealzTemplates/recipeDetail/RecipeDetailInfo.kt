@@ -101,7 +101,7 @@ class RecipeDetailInfo : RecipeDetailInfo {
                     Row(
                         Modifier.fillMaxHeight()){
 
-                        Minus({ increase() },  params.isUpdating)
+                        Minus({ decrease() },  params.isUpdating)
                         Divider(Modifier.height(50.dp)  //fill the max height
                             .width(1.dp))
                     }
@@ -112,7 +112,7 @@ class RecipeDetailInfo : RecipeDetailInfo {
                         Divider(
                             modifier =  Modifier.height(50.dp)
                                 .width(1.dp))
-                        Plus({ decrease() }, params.isUpdating)
+                        Plus({ increase() }, params.isUpdating)
                     }
                 }
             }

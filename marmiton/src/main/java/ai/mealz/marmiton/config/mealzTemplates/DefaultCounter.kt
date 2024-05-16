@@ -49,14 +49,14 @@ class DefaultCounter : Counter {
             }
 
             fun decrease () {
-                changedValue(localCount, 1)?.let { newCount ->
+                changedValue(localCount, -1)?.let { newCount ->
                     localCount = newCount
                     params.onCounterChanged(newCount)
                 }
             }
 
             fun increase() {
-                changedValue(localCount, -1)?.let { newCount ->
+                changedValue(localCount, 1)?.let { newCount ->
                     localCount = newCount
                     params.onCounterChanged(newCount)
                 }
@@ -80,7 +80,7 @@ class DefaultCounter : Counter {
                     Row(
                         Modifier.fillMaxHeight()){
 
-                        Minus({ increase() },  params.isLoading)
+                        Minus({ decrease() },  params.isLoading)
                         Divider(
                             Modifier.height(50.dp)  //fill the max height
                                 .width(1.dp))
@@ -91,7 +91,7 @@ class DefaultCounter : Counter {
                         Divider(
                             modifier =  Modifier.height(50.dp)
                                 .width(1.dp))
-                        Plus({ decrease() }, params.isLoading)
+                        Plus({ increase() }, params.isLoading)
 
                     }
 
