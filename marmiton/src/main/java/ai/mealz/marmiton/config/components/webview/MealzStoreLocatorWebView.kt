@@ -69,11 +69,16 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
 
                 if (message == "posIdChange") {
                     data["posId"]?.let { posId ->
-                        Mealz.user.setStoreWithMealzId(posId)
-                        data["posName"]?.let { posName ->
-                            MealzDI.analyticsService.sendEvent(Analytics.EVENT_POS_SELECTED, "", Analytics.PlausibleProps(pos_id = posId, pos_name = posName))
+                        Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
+                            data["posName"]?.let { posName ->
+                                MealzDI.analyticsService.sendEvent(
+                                    Analytics.EVENT_POS_SELECTED,
+                                    "",
+                                    Analytics.PlausibleProps(pos_id = posId, pos_name = posName)
+                                )
+                            }
+                            this.onSelectStore?.let { it(posId) }
                         }
-                        this.onSelectStore?.let { it(posId) }
                     }
                 }
             } catch (e: Exception) {
