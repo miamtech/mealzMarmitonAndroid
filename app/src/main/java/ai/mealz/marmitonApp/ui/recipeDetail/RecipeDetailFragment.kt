@@ -4,9 +4,6 @@ import ai.mealz.core.Mealz
 import ai.mealz.marmiton.config.components.mealzJourney.MealzJourney
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentRecipeDetailBinding
-import ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment
-import ai.mealz.sdk.components.recipeDetail.RecipeDetail
-//import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +40,10 @@ class RecipeDetailFragment : DialogFragment() {
 
         }
         root.findViewById<MealzJourney>(R.id.recipe_detail)
-            .bind("14472") { dismiss() }
+            .bind("22509") {
+                dismiss()
+                findNavController().navigate(R.id.navigation_my_basket)
+            }
         return root
     }
 
