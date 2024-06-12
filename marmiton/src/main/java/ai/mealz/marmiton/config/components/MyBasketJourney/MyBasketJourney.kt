@@ -9,7 +9,9 @@ import ai.mealz.sdk.components.itemSelector.ItemSelector
 import ai.mealz.sdk.components.myBasket.MyBasket
 import android.content.Context
 import android.util.AttributeSet
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+
 
 class MyBasketJourney @JvmOverloads constructor(
     context: Context,
@@ -63,11 +66,26 @@ class MyBasketJourney @JvmOverloads constructor(
                         Box(modifier = Modifier.fillMaxSize()) {
                             AndroidView(factory = {
                                 WebView(it).apply {
-                                    this.loadUrl(arguments.getString("url") ?: "")
+                                    this.webViewClient = object : WebViewClient() {
+                                        override fun shouldOverrideUrlLoading(
+                                            view: WebView,
+                                            request: WebResourceRequest
+                                        ): Boolean {
+                                            view.loadUrl(request.url.toString())
+                                            return false
+                                        }
+                                    }
+                                    this.settings.javaScriptEnabled = true
+                                    this.settings.allowFileAccessFromFileURLs = true
+                                    this.settings.allowUniversalAccessFromFileURLs = true
+                                    this.settings.allowFileAccess = true
+                                    this.settings.allowContentAccess = true
+                                    this.settings.setDomStorageEnabled(true);
                                     layoutParams = LayoutParams(
                                         LayoutParams.MATCH_PARENT,
                                         LayoutParams.MATCH_PARENT
                                     )
+                                    this.loadUrl(arguments.getString("url") ?: "")
                                 }
                             })
                         }
