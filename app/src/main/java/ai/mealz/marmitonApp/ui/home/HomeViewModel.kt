@@ -15,7 +15,7 @@ class HomeViewModel : ViewModel() {
 
     suspend fun getPrice(v: View) {
        if(_text.value == "Show Price" ){
-           _text.value =  Mealz.recipe.getPriceOrRedirect("14472", 4).await()?.toString() ?: return
+           _text.value =  Mealz.recipe.getPriceOrRedirect("22509", 4).await()?.toString() ?: return
        }
     }
 
