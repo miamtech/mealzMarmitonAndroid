@@ -1,23 +1,17 @@
 package ai.mealz.marmiton.config.mealzTemplates.recipeDetail
 
-import ai.mealz.marmiton.R
+import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import ai.mealz.marmiton.config.components.counter.MiddleText
 import ai.mealz.marmiton.config.components.counter.Minus
 import ai.mealz.marmiton.config.components.counter.Plus
-import ai.mealz.sdk.components.MiamTheme
-import ai.mealz.sdk.components.baseComponent.counter.CounterImp
-import ai.mealz.sdk.components.baseComponent.counter.CounterParameters
 import ai.mealz.sdk.components.recipeDetail.success.info.RecipeDetailInfo
 import ai.mealz.sdk.components.recipeDetail.success.info.RecipeDetailInfoParameters
-import ai.mealz.sdk.ressource.Image
+import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import ai.mealz.sdk.theme.Colors
 import ai.mealz.sdk.theme.Dimension
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,14 +20,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,17 +30,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 class RecipeDetailInfo : RecipeDetailInfo {
     @Composable
     override fun Content(params: RecipeDetailInfoParameters) {
+        val storeLocatorButton = remember { StoreLocatorButtonViewModel() }
+
         Column {
             var localCount by remember(params.recipe.id ) { mutableStateOf(params.guestCount) }
 
@@ -81,6 +66,9 @@ class RecipeDetailInfo : RecipeDetailInfo {
                     params.updateGuest(newCount)
                 }
             }
+
+            StoreLocatorButton.View(viewModel = storeLocatorButton)
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier
