@@ -3,3 +3,4 @@
 [DEMO] Change redirection on leaving recipe detail change CTA text
 [DEMO] Change My basket CTA text
 [DEMO] Change navigation from recipe detail
+[DEMO] Change Item Selector no substitution text
