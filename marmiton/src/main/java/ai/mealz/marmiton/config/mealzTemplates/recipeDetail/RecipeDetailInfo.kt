@@ -69,7 +69,6 @@ class RecipeDetailInfo : RecipeDetailInfo {
 
             StoreLocatorButton.View(viewModel = storeLocatorButton)
             Spacer(modifier = Modifier.height(8.dp))
-
             Row(
                 modifier = Modifier
                     .padding(

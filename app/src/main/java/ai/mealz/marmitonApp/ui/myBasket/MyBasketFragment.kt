@@ -32,7 +32,6 @@ class MyBasketFragment : Fragment() {
 
         Mealz.user.setStoreLocatorRedirection {
             findNavController().navigate(R.id.navigation_store_locator)
-
         }
 
         return root
