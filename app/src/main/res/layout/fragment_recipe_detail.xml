@@ -14,5 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="24dp"></ai.mealz.marmiton.config.components.mealzJourney.MealzJourney>
+        android:paddingVertical="24dp"
+        ></ai.mealz.marmiton.config.components.mealzJourney.MealzJourney>
 </LinearLayout>
