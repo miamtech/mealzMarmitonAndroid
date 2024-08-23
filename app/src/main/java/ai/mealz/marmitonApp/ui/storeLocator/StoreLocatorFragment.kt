@@ -49,12 +49,13 @@ class StoreLocatorFragment : DialogFragment() {
                 val navControler = findNavController()
                 if (navControler.currentBackStack.value.isNotEmpty() && navControler.currentBackStack.value[navControler.currentBackStack.value.size - 2].destination.label == "Home") {
                     navControler.popBackStack()
-                    navControler.navigate(R.id.navigation_recipe_detail, )
+                    navControler.navigate(R.id.navigation_recipe_detail,)
                 } else {
                     navControler.popBackStack()
                 }
             }
-            
+        }
+
         myWebView.onSelectStore = { _ ->
             dismiss()
         }
