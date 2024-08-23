@@ -8,4 +8,5 @@
     <string name="StoreLocator" translatable="false">Choix du magasin</string>
     <string name="com_miam_details_continue_shopping" translatable="false">Voir mon panier</string>
     <string name="ai_mealz_my_basket_in_my_basket" translatable="false">Passer commande</string>
+    <string name="com_miam_item_selector_no_substitution" translatable="false">Nous n\'avons trouvé aucun produit pouvant remplacer celui-ci, effectuez une recherche pour en choisir un autre.</string>
 </resources>
