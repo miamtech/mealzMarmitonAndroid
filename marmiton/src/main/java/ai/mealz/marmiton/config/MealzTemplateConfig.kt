@@ -3,10 +3,12 @@ package ai.mealz.marmiton.config
 import ai.mealz.marmiton.R
 import ai.mealz.marmiton.config.mealzTemplates.DefaultCounter
 import ai.mealz.marmiton.config.mealzTemplates.EmptyTemplate
+import ai.mealz.marmiton.config.mealzTemplates.itemSelector.MarmitonItemSelectorNoResults
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.MarmitonRecipeDetailFooter
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.RecipeDetailInfo
 import ai.mealz.sdk.components.MiamTheme
 import ai.mealz.sdk.components.MiamTheme.defaultViews
+import ai.mealz.sdk.components.MiamTheme.itemSelector
 import ai.mealz.sdk.components.MiamTheme.recipeDetail
 import ai.mealz.sdk.ressource.Image
 import ai.mealz.sdk.theme.Colors
@@ -43,6 +45,9 @@ class MiamTemplateManager {
                     footer { view = MarmitonRecipeDetailFooter() }
                     gapBetweenProducts = 16
                 }
+            }
+            itemSelector {
+                empty { view = MarmitonItemSelectorNoResults() }
             }
         }
     }

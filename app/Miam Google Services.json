@@ -1,0 +1,226 @@
+{
+  "project_info": {
+    "project_number": "330399516647",
+    "project_id": "miamandroid",
+    "storage_bucket": "miamandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:8b37b79540b9c3bea55f42",
+        "android_client_info": {
+          "package_name": "ai.mealz.marmitonApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:386918e131c97e93a55f42",
+        "android_client_info": {
+          "package_name": "com.coursesu.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:350ded970641e973a55f42",
+        "android_client_info": {
+          "package_name": "com.example.androidtestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:b6b7e04896ba383fa55f42",
+        "android_client_info": {
+          "package_name": "com.franprix.catalogue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:86497186862b6970a55f42",
+        "android_client_info": {
+          "package_name": "tech.miam.coursesUDemoApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330399516647:android:b99d6af3b39a90b3a55f42",
+        "android_client_info": {
+          "package_name": "tech.miam.franprixandroidui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSgrhyFr523lRKZO3cpBi-uY4mnvGq6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330399516647-29ufkpvgrspkon30ti0vb7ob5v3a6hmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330399516647-ammlm25sd0kc3nd7sok3ficema96h0uq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.miam.showRoom"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
