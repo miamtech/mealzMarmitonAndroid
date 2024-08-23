@@ -1,5 +1,6 @@
 package ai.mealz.marmitonApp
 
+import ai.mealz.core.Mealz
 import ai.mealz.marmitonApp.config.MealzManager
 import ai.mealz.marmitonApp.data.model.Product
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ai.mealz.marmitonApp.databinding.ActivityMainBinding
 import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
+import ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
@@ -32,11 +34,16 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_store_locator, R.id.navigation_my_basket
+                R.id.navigation_home, R.id.navigation_my_basket
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         MealzManager.initialize(this, emptyList<Product>().toMutableList(),"test_${UUID.randomUUID()}","25910")
+        Mealz.user.setStoreLocatorRedirection {
+            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+            val newFragment = StoreLocatorFragment()
+            newFragment.show(ft, "dialog")
+        }
     }
 }

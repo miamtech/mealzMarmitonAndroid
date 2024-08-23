@@ -3,27 +3,18 @@ package ai.mealz.marmitonApp.ui.storeLocator
 import ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
-import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.fragment.findNavController
 
 
-class StoreLocatorFragment() : Fragment() {
+class StoreLocatorFragment : DialogFragment() {
 
     private var _binding: FragmentStoreLocatorBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
 
     @SuppressLint("JavascriptInterface", "RestrictedApi")
     override fun onCreateView(
@@ -34,32 +25,18 @@ class StoreLocatorFragment() : Fragment() {
         _binding = FragmentStoreLocatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // Ensure you reference the correct WebView instance
         val myWebView: MealzStoreLocatorWebView = root.findViewById(R.id.store_locator)
         myWebView.urlToLoad = "file:///android_asset/index.html"
         myWebView.onShowChange = {
-            val mainHandler = context?.mainLooper?.let { Handler(it) }
-            mainHandler?.post {
-                val navController = findNavController()
-                if (navController.currentBackStack.value.isNotEmpty() && navController.currentBackStack.value[navController.currentBackStack.value.size - 2].destination.label == "Home") {
-                    navController.popBackStack()
-                    showDialog()
-                } else {
-                    navController.popBackStack()
-                }
-            }
+            dismiss()
         }
+
         myWebView.onSelectStore = { _ ->
-            val mainHandler = context?.mainLooper?.let { Handler(it) }
-            mainHandler?.post {
-                val navControler = findNavController()
-                if (navControler.currentBackStack.value.isNotEmpty() && navControler.currentBackStack.value[navControler.currentBackStack.value.size - 2].destination.label == "Home") {
-                    navControler.popBackStack()
-                    showDialog()
-                } else {
-                    navControler.popBackStack()
-                }
-            }
+            dismiss()
         }
+
+        // Return the correctly inflated view
         return root
     }
 
@@ -68,11 +45,7 @@ class StoreLocatorFragment() : Fragment() {
         _binding = null
     }
 
-    fun showDialog() {
-        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
-        val newFragment: DialogFragment = RecipeDetailFragment()
-        newFragment.show(ft, "dialog")
+    override fun getTheme(): Int {
+        return R.style.DialogTheme
     }
-
-
 }
