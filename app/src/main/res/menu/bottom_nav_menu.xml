@@ -7,13 +7,8 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_store_locator"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_store" />
-
-    <item
         android:id="@+id/navigation_my_basket"
-        android:icon="@drawable/ic_cart"
+        android:icon="@drawable/ic_mealz_cart"
         android:title="@string/title_my_basket" />
 
 </menu>

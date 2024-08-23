@@ -4,16 +4,13 @@ import ai.mealz.core.viewModels.dynamicRecipeDetail.DynamicRecipeDetailContract
 import ai.mealz.core.viewModels.dynamicRecipeDetail.DynamicRecipeDetailViewModel
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorContract
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorViewModel
-import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import ai.mealz.sdk.components.itemSelector.ItemSelector
 import ai.mealz.sdk.components.recipeDetail.RecipeDetail
 import ai.mealz.sdk.components.sponsorDetail.SponsorDetail
-import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import android.content.Context
 import android.util.AttributeSet
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -56,16 +53,15 @@ class MealzJourney @JvmOverloads constructor(
                 }
             }
         }
-        val storeLocatorButton = remember { StoreLocatorButtonViewModel() }
 
         val itemSelectorViewModel = remember { ItemSelectorViewModel() }
 
         recipeId.value?.let { recipeId ->
             NavHost(navController = navController, startDestination = "DETAIL") {
                 composable("DETAIL") {
-                    Column {
-                        StoreLocatorButton.View(viewModel = storeLocatorButton)
-                        Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier.padding(16.dp, 24.dp)
+                    ) {
                         RecipeDetail.View(
                             viewModel = dynamicRecipeDetailViewModel,
                             recipeId = recipeId,
