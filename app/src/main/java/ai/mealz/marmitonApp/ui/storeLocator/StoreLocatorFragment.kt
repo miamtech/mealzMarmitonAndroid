@@ -3,13 +3,16 @@ package ai.mealz.marmitonApp.ui.storeLocator
 import ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
+import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 
 
@@ -39,7 +42,7 @@ class StoreLocatorFragment() : Fragment() {
                 val navController = findNavController()
                 if (navController.currentBackStack.value.isNotEmpty() && navController.currentBackStack.value[navController.currentBackStack.value.size - 2].destination.label == "Home") {
                     navController.popBackStack()
-                    navController.navigate(R.id.navigation_recipe_detail)
+                    showDialog()
                 } else {
                     navController.popBackStack()
                 }
@@ -51,7 +54,7 @@ class StoreLocatorFragment() : Fragment() {
                 val navControler = findNavController()
                 if (navControler.currentBackStack.value.isNotEmpty() && navControler.currentBackStack.value[navControler.currentBackStack.value.size - 2].destination.label == "Home") {
                     navControler.popBackStack()
-                    navControler.navigate(R.id.navigation_recipe_detail, )
+                    showDialog()
                 } else {
                     navControler.popBackStack()
                 }
@@ -63,6 +66,12 @@ class StoreLocatorFragment() : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun showDialog() {
+        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
+        val newFragment: DialogFragment = RecipeDetailFragment()
+        newFragment.show(ft, "dialog")
     }
 
 
