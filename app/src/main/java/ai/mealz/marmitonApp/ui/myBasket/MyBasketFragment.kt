@@ -1,6 +1,5 @@
 package ai.mealz.marmitonApp.ui.myBasket
 
-import ai.mealz.core.Mealz
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentMyBasketBinding
 import ai.mealz.sdk.components.myBasket.MyBasket
@@ -9,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-
 
 class MyBasketFragment : Fragment() {
 
@@ -29,10 +26,6 @@ class MyBasketFragment : Fragment() {
         _binding = FragmentMyBasketBinding.inflate(inflater, container, false)
         val root: View = binding.root
         root.findViewById<MyBasket>(R.id.my_basket)
-
-        Mealz.user.setStoreLocatorRedirection {
-            findNavController().navigate(R.id.navigation_store_locator)
-        }
 
         return root
     }

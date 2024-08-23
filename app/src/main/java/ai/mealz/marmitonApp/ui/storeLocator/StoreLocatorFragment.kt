@@ -32,28 +32,7 @@ class StoreLocatorFragment : DialogFragment() {
         val myWebView: MealzStoreLocatorWebView = root.findViewById(R.id.store_locator)
         myWebView.urlToLoad = "file:///android_asset/index.html"
         myWebView.onShowChange = {
-            val mainHandler = context?.mainLooper?.let { Handler(it) }
-            mainHandler?.post {
-                val navController = findNavController()
-                if (navController.currentBackStack.value.isNotEmpty() && navController.currentBackStack.value[navController.currentBackStack.value.size - 2].destination.label == "Home") {
-                    navController.popBackStack()
-                    navController.navigate(R.id.navigation_recipe_detail)
-                } else {
-                    navController.popBackStack()
-                }
-            }
-        }
-        myWebView.onSelectStore = { _ ->
-            val mainHandler = context?.mainLooper?.let { Handler(it) }
-            mainHandler?.post {
-                val navControler = findNavController()
-                if (navControler.currentBackStack.value.isNotEmpty() && navControler.currentBackStack.value[navControler.currentBackStack.value.size - 2].destination.label == "Home") {
-                    navControler.popBackStack()
-                    navControler.navigate(R.id.navigation_recipe_detail,)
-                } else {
-                    navControler.popBackStack()
-                }
-            }
+            dismiss()
         }
 
         myWebView.onSelectStore = { _ ->
