@@ -8,9 +8,14 @@ import ai.mealz.core.model.SupplierProduct
 import ai.mealz.core.subscription.publisher.BasketPublisher
 import ai.mealz.core.subscription.subscriber.BasketSubscriber
 import ai.mealz.marmiton.config.MiamTemplateManager
+import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.data.model.BasketEvent
 import ai.mealz.marmitonApp.data.model.Product
+import ai.mealz.marmitonApp.ui.recipeDetail.RecipeDetailFragment
+import ai.mealz.marmitonApp.ui.storeLocator.StoreLocatorFragment
 import android.content.Context
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
