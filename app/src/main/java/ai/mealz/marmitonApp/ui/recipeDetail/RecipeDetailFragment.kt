@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeDetailFragment : DialogFragment() {
 
@@ -41,22 +43,25 @@ class RecipeDetailFragment : DialogFragment() {
         recipeId?.let { id ->
             root.findViewById<MealzJourney>(R.id.recipe_detail).bind(id) {
                 dismiss()
-                findNavController().navigate(R.id.navigation_my_basket)
+                navigateToMyBasket()
             }
         } ?: run {
             // Handle the case where recipeId is not provided
             dismiss()
         }
 
-        Mealz.user.setSignInRedirection {
-            dismiss()
-        }
-        Mealz.user.setStoreLocatorRedirection {
-            dismiss()
-            findNavController().navigate(R.id.navigation_store_locator)
-        }
-
         return root
+    }
+
+    private fun navigateToMyBasket() {
+        // Access the BottomNavigationView
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+
+        // Set the selected item programmatically
+        bottomNavigationView.selectedItemId = R.id.navigation_my_basket
+
+        // Navigate to the desired fragment using NavController
+        findNavController().navigate(R.id.navigation_my_basket)
     }
 
     override fun onDestroyView() {
