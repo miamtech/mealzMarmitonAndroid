@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.kotlin.serialization)
     `maven-publish`
 }
 
@@ -40,10 +41,8 @@ android {
 }
 
 dependencies {
-    api("ai.mealz.core:mealzcore")
-    api("ai.mealz.android:sdk")
-    //api("ai.mealz.core:mealz-core:4.1.0-alpha")
-    //api("ai.mealz.android:mealz-android:4.1.0-alpha")
+    api("ai.mealz.core:mealz-core:4.1.0-alpha-2")
+    api("ai.mealz.android:mealz-android:4.1.0-alpha-2")
     api(libs.android.material)
     api(libs.ktor.client.serialization)
     api(libs.kotlinx.coroutines.core)

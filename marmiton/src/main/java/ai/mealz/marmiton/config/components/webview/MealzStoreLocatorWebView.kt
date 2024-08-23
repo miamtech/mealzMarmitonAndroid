@@ -1,4 +1,5 @@
 package ai.mealz.marmiton.config.components.webview
+
 import ai.mealz.core.Mealz
 import ai.mealz.core.di.MealzDI
 import ai.mealz.core.services.Analytics
@@ -13,8 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.viewinterop.AndroidView
-import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+
+@Serializable
+data class ShowChangeEvent(
+    val message: String,
+    val value: Boolean
+)
+
+@Serializable
+data class PosIdChangeEvent(
+    val message: String,
+    val posId: String?,
+    val posExtId: String?,
+    val supplierId: String?,
+    val posName: String?
+)
 
 class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
@@ -23,6 +39,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
 ): AbstractComposeView(context, attrs, defStyleAttr) {
 
     var webview: WebView? = null
+    var onShowChange: (() -> Unit)? = null
     var onSelectStore: ((String) -> Unit)? = null
     var urlToLoad: String? = null
     @Composable
@@ -47,7 +64,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                             this.loadUrl(urlToLoad ?: error("Should pass an url in webview"))
                             MealzDI.analyticsService.sendEvent(Analytics.EVENT_PAGEVIEW, "/locator", Analytics.PlausibleProps())
                             this.addJavascriptInterface(
-                                MyJavaScriptInterface(onSelectStore = onSelectStore),
+                                MyJavaScriptInterface(onShowChange = onShowChange, onSelectStore = onSelectStore),
                                 "Mealz"
                             )
                         }
@@ -58,31 +75,35 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     }
 
 
-    class MyJavaScriptInterface(onSelectStore: ((String) -> Unit)?) {
-        var onSelectStore: ((String) -> Unit)? = onSelectStore
+    class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
 
         @JavascriptInterface
         fun postMessage(reciveMessage: String) {
             try {
-                val data = Json.decodeFromString<Map<String, String>>(reciveMessage)
-                val message = data["message"]
-
-                if (message == "posIdChange") {
-                    data["posId"]?.let { posId ->
-                        Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
-                            data["posName"]?.let { posName ->
-                                MealzDI.analyticsService.sendEvent(
-                                    Analytics.EVENT_POS_SELECTED,
-                                    "",
-                                    Analytics.PlausibleProps(pos_id = posId, pos_name = posName)
-                                )
-                            }
-                            this.onSelectStore?.let { it(posId) }
-                        }
-                    }
+                val data = Json.decodeFromString<ShowChangeEvent>(reciveMessage)
+                if (data.message == "showChange" && !data.value) {
+                    this.onShowChange?.let { it() }
                 }
             } catch (e: Exception) {
-                println("Erreur lors de la désérialisation JSON: $e")
+                try {
+                    val data = Json.decodeFromString<PosIdChangeEvent>(reciveMessage)
+                    if (data.message == "posIdChange") {
+                        data.posId?.let { posId ->
+                            Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
+                                data.posName?.let { posName ->
+                                    MealzDI.analyticsService.sendEvent(
+                                        Analytics.EVENT_POS_SELECTED,
+                                        "",
+                                        Analytics.PlausibleProps(pos_id = posId, pos_name = posName)
+                                    )
+                                }
+                                this.onSelectStore?.let { it(posId) }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("Erreur lors de la désérialisation JSON: $e")
+                }
             }
         }
     }
