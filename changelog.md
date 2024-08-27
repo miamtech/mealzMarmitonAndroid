@@ -7,3 +7,4 @@
 [DEMO] Change My basket CTA text
 [DEMO] Change navigation from recipe detail
 [DEMO] Change Item Selector no substitution text
+[DEMO] Get price updates if POS changes

@@ -19,15 +19,13 @@ class HomeViewModel : ViewModel() {
     val textRecipe1: LiveData<String> = _textRecipe1
 
     // Function to get the price for Recipe 1
-    suspend fun getPriceRecipe1(v: View, recipeId: String) {
-        if (_textRecipe1.value == "Show Price") {
-            // Assuming Mealz.recipe.getPriceOrRedirect returns a Deferred or similar suspendable result
-            val price = withContext(Dispatchers.IO) {
-                Mealz.recipe.getPriceOrRedirect(recipeId, 4).await()
-            }
-            price?.let {
-                _textRecipe1.value = it.toString()
-            }
+    suspend fun getPriceRecipe1(recipeId: String) {
+        // Assuming Mealz.recipe.getPriceOrRedirect returns a Deferred or similar suspendable result
+        val price = withContext(Dispatchers.IO) {
+            Mealz.recipe.getPriceOrRedirect(recipeId, 4).await()
+        }
+        price?.let {
+            _textRecipe1.value = it.toString()
         }
     }
 
@@ -39,15 +37,13 @@ class HomeViewModel : ViewModel() {
     val textRecipe2: LiveData<String> = _textRecipe2
 
     // Function to get the price for Recipe 1
-    suspend fun getPriceRecipe2(v: View, recipeId: String) {
-        if (_textRecipe2.value == "Show Price") {
-            // Assuming Mealz.recipe.getPriceOrRedirect returns a Deferred or similar suspendable result
-            val price = withContext(Dispatchers.IO) {
-                Mealz.recipe.getPriceOrRedirect(recipeId, 4).await()
-            }
-            price?.let {
-                _textRecipe2.value = it.toString()
-            }
+    suspend fun getPriceRecipe2(recipeId: String) {
+        // Assuming Mealz.recipe.getPriceOrRedirect returns a Deferred or similar suspendable result
+        val price = withContext(Dispatchers.IO) {
+            Mealz.recipe.getPriceOrRedirect(recipeId, 4).await()
+        }
+        price?.let {
+            _textRecipe2.value = it.toString()
         }
     }
 }
