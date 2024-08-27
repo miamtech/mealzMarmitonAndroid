@@ -5,6 +5,7 @@ import ai.mealz.marmiton.config.components.webview.MarmitonBasketTransferWebview
 import ai.mealz.marmiton.config.mealzTemplates.DefaultCounter
 import ai.mealz.marmiton.config.mealzTemplates.EmptyTemplate
 import ai.mealz.marmiton.config.mealzTemplates.myBasket.MarmitonMyBasketEmpty
+import ai.mealz.marmiton.config.mealzTemplates.myBasket.MyMeal.MarmitonMyMealRecipeCard
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.MarmitonRecipeDetailFooter
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.RecipeDetailInfo
 import ai.mealz.sdk.components.MiamTheme
@@ -58,6 +59,7 @@ class MiamTemplateManager {
             }
             myMeal {
                 empty { view = MarmitonMyBasketEmpty() }
+                recipeCard { success { view = MarmitonMyMealRecipeCard() } }
             }
             myProducts {
                 empty { view = MarmitonMyBasketEmpty() }
