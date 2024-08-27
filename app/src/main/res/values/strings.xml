@@ -9,4 +9,5 @@
     <string name="com_miam_details_continue_shopping" translatable="false">Voir mon panier</string>
     <string name="ai_mealz_my_basket_in_my_basket" translatable="false">Passer commande</string>
     <string name="com_miam_item_selector_no_substitution" translatable="false">Nous n\'avons trouvé aucun produit pouvant remplacer celui-ci, effectuez une recherche pour en choisir un autre.</string>
+    <string name="com_miam_my_meals_no_meal_in_basket" translatable="false">Vous n\'avez ajouté aucun repas pour le moment</string>
 </resources>
