@@ -65,7 +65,7 @@ class MyBasketJourney @JvmOverloads constructor(
             composable("TRANSFER_BASKET/{url}"){ backStackEntry ->
                 backStackEntry.arguments?.let { arguments ->
                     TransferBasket.View(url = arguments.getString("url") ?: "", retailerName = "toto") {
-
+                        navController.popBackStack()
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ## 1.0.1
 [FIX] fix web view deep linking
+[FIX] Fix bottom bar was over other views
 [DEMO] Update home page to be ISO with iOS
 [DEMO] Remove Store Selector from bottom tab
 [DEMO] Switching to MyBasket tab works as expected
