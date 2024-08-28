@@ -29,10 +29,7 @@ data class PosIdChangeEvent(
     val posId: String?,
     val posExtId: String?,
     val supplierId: String?,
-    val posName: String?,
-
-    val retailerId: String?,
-    val retailerName: String?
+    val posName: String?
 )
 
 class MealzStoreLocatorWebView @JvmOverloads constructor(
@@ -103,14 +100,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                                 this.onSelectStore?.let { it(posId) }
                             }
                         }
-                        data.retailerId?.let { retailerId ->
-                            data.retailerName?.let { retailerName ->
-                                Mealz.user.setRetailer(retailerId ,retailerName)
-                            }
-                        }
                     }
-
-
                 } catch (e: Exception) {
                     println("Erreur lors de la désérialisation JSON: $e")
                 }

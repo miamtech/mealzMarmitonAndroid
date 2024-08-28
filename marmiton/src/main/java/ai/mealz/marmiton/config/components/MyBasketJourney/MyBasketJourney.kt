@@ -1,6 +1,5 @@
 package ai.mealz.marmiton.config.components.MyBasketJourney
 
-import ai.mealz.core.data.repository.retailer.RetailerRepository
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorContract
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorViewModel
 import ai.mealz.core.viewModels.myBasket.MyBasketViewModel
@@ -65,10 +64,8 @@ class MyBasketJourney @JvmOverloads constructor(
             }
             composable("TRANSFER_BASKET/{url}"){ backStackEntry ->
                 backStackEntry.arguments?.let { arguments ->
-                    RetailerRepository.retailerName?.let {
-                        TransferBasket.View(url = arguments.getString("url") ?: "", retailerName = it) {
-                            navController.popBackStack()
-                        }
+                    TransferBasket.View(url = arguments.getString("url") ?: "", retailerName = "toto") {
+                        navController.popBackStack()
                     }
                 }
             }
