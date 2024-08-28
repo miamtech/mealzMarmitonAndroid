@@ -1,4 +1,5 @@
 ## 1.0.1
+[FIX] Fix store-locator did not list affiliated suppliers
 [FIX] fix web view deep linking
 [FIX] Fix bottom bar was over other views
 [FEA] Empty View on MyBasket
