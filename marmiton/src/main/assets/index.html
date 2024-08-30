@@ -22,6 +22,7 @@
             posId : e.detail.posId,
             posExtId : e.detail.posExtId,
             supplierId : e.detail.supplierId,
+            supplierName : e.detail.supplierName,
             posName : e.detail.posName
         };
         Mealz.postMessage(JSON.stringify(jsonObject));
@@ -40,7 +41,7 @@
 
       storeLocatorElement.getByAddress = function(address, radius) {
         const getByAddressRequest = new XMLHttpRequest();
-        const url = `https://api.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;
+        const url = `https://api-uat.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;
         getByAddressRequest.open('GET', url);
 
         return {

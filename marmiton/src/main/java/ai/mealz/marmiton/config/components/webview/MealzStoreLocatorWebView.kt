@@ -31,8 +31,7 @@ data class PosIdChangeEvent(
     val supplierId: String?,
     val posName: String?,
 
-    val retailerId: String?,
-    val retailerName: String?
+    val supplierName: String?
 )
 
 class MealzStoreLocatorWebView @JvmOverloads constructor(
@@ -103,9 +102,9 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                                 this.onSelectStore?.let { it(posId) }
                             }
                         }
-                        data.retailerId?.let { retailerId ->
-                            data.retailerName?.let { retailerName ->
-                                Mealz.user.setRetailer(retailerId ,retailerName)
+                        data.supplierId?.let { supplierId ->
+                            data.supplierName?.let { supplierName ->
+                                Mealz.user.setRetailer(retailerId = supplierId, retailerName = supplierName)
                             }
                         }
                     }
