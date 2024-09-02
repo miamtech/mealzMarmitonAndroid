@@ -1,6 +1,5 @@
 package ai.mealz.marmiton.config.components.mealzJourney
 
-import ai.mealz.core.viewModels.dynamicRecipeDetail.DynamicRecipeDetailContract
 import ai.mealz.core.viewModels.dynamicRecipeDetail.DynamicRecipeDetailViewModel
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorContract
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorViewModel
@@ -27,31 +26,38 @@ class MealzJourney @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): AbstractComposeView(context, attrs, defStyleAttr) {
+) : AbstractComposeView(context, attrs, defStyleAttr) {
 
-    private val state = MutableStateFlow<String?>( null)
-    private var close =  {}
+    private val state = MutableStateFlow<String?>(null)
 
-    fun bind(recipeId: String? = null, close : ()-> Unit) {
+    private var close = {}
+    private var isMealzId = true
+
+    fun bind(recipeId: String? = null, isMealzId: Boolean = true, close: () -> Unit) {
         state.value = recipeId
+        this.isMealzId = isMealzId
         this.close = close
     }
 
     @Composable
     override fun Content() {
+
         val navController = rememberNavController()
+
         val recipeId = state.collectAsState()
 
-        fun goToItemSelector(ingredientId: String) = navController.navigate("ITEM_SELECTOR/${ingredientId}") { launchSingleTop = true }
-        fun goToSponsor(sponsorId: String) = navController.navigate("SPONSOR/${sponsorId}") { launchSingleTop = true }
-        fun back() { navController.popBackStack() }
+        fun goToItemSelector(ingredientId: String) =
+            navController.navigate("ITEM_SELECTOR/${ingredientId}") { launchSingleTop = true }
+
+        fun goToSponsor(sponsorId: String) =
+            navController.navigate("SPONSOR/${sponsorId}") { launchSingleTop = true }
+
+        fun back() {
+            navController.popBackStack()
+        }
 
         val dynamicRecipeDetailViewModel = remember {
-            DynamicRecipeDetailViewModel({close()}, ::goToItemSelector).apply {
-                recipeId.value?.let {
-                    this.setEvent(DynamicRecipeDetailContract.Event.SetRecipeId(it))
-                }
-            }
+            DynamicRecipeDetailViewModel({ close() }, ::goToItemSelector)
         }
 
         val itemSelectorViewModel = remember { ItemSelectorViewModel() }
@@ -65,6 +71,7 @@ class MealzJourney @JvmOverloads constructor(
                         RecipeDetail.View(
                             viewModel = dynamicRecipeDetailViewModel,
                             recipeId = recipeId,
+                            isMealzId,
                             goToSponsor = { goToSponsor(it) },
                             cookOnlyMode = false
                         )
@@ -72,15 +79,20 @@ class MealzJourney @JvmOverloads constructor(
                 }
                 composable("ITEM_SELECTOR/{ingredientId}") { backStackEntry ->
                     backStackEntry.arguments?.let { arguments ->
-                        ItemSelector.View(itemSelectorViewModel, arguments.getString("ingredientId")) {
+                        ItemSelector.View(
+                            itemSelectorViewModel,
+                            arguments.getString("ingredientId")
+                        ) {
                             itemSelectorViewModel.setEvent(ItemSelectorContract.Event.ReturnToDetail)
                             back()
                         }
                     }
+
                 }
                 composable("SPONSOR/{sponsorId}") { backStackEntry ->
                     backStackEntry.arguments?.getString("sponsorId")?.let { sponsorId ->
-                        SponsorDetail(LocalContext.current).apply { bind(sponsorId) { back() } }.Content()
+                        SponsorDetail(LocalContext.current).apply { bind(sponsorId) { back() } }
+                            .Content()
                     }
                 }
             }
