@@ -2,6 +2,7 @@
 [FIX] Fix store-locator did not list affiliated suppliers
 [FIX] fix web view deep linking
 [FIX] Fix bottom bar was over other views
+[FIX] Home page passes in false for isMealzRecipe
 [FEA] Empty View on MyBasket
 [FEA] My Meal Recipe Card
 [DEMO] Update home page to be ISO with iOS

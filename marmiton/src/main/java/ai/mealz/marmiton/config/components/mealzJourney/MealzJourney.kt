@@ -29,18 +29,24 @@ class MealzJourney @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ): AbstractComposeView(context, attrs, defStyleAttr) {
 
-    private val state = MutableStateFlow<String?>( null)
+    class MealzJourneyState(
+        var recipeId: String?,
+        var isMealzRecipe: Boolean = true
+    )
+
+    private val state = MutableStateFlow<MealzJourneyState>( MealzJourneyState(recipeId = null))
     private var close =  {}
 
-    fun bind(recipeId: String? = null, close : ()-> Unit) {
-        state.value = recipeId
+    fun bind(recipeId: String? = null, isMealzRecipe: Boolean = true, close : ()-> Unit) {
+        state.value.recipeId = recipeId
+        state.value.isMealzRecipe = isMealzRecipe
         this.close = close
     }
 
     @Composable
     override fun Content() {
         val navController = rememberNavController()
-        val recipeId = state.collectAsState()
+        val mealzJourneyState = state.collectAsState()
 
         fun goToItemSelector(ingredientId: String) = navController.navigate("ITEM_SELECTOR/${ingredientId}") { launchSingleTop = true }
         fun goToSponsor(sponsorId: String) = navController.navigate("SPONSOR/${sponsorId}") { launchSingleTop = true }
@@ -48,15 +54,15 @@ class MealzJourney @JvmOverloads constructor(
 
         val dynamicRecipeDetailViewModel = remember {
             DynamicRecipeDetailViewModel({close()}, ::goToItemSelector).apply {
-                recipeId.value?.let {
-                    this.setEvent(DynamicRecipeDetailContract.Event.SetRecipeId(it))
+                mealzJourneyState.value.recipeId?.let {
+                    this.setEvent(DynamicRecipeDetailContract.Event.SetRecipeId(it, mealzJourneyState.value.isMealzRecipe))
                 }
             }
         }
 
         val itemSelectorViewModel = remember { ItemSelectorViewModel() }
 
-        recipeId.value?.let { recipeId ->
+        mealzJourneyState.value.recipeId?.let { recipeId ->
             NavHost(navController = navController, startDestination = "DETAIL") {
                 composable("DETAIL") {
                     Box(
@@ -65,6 +71,7 @@ class MealzJourney @JvmOverloads constructor(
                         RecipeDetail.View(
                             viewModel = dynamicRecipeDetailViewModel,
                             recipeId = recipeId,
+                            mealzJourneyState.value.isMealzRecipe,
                             goToSponsor = { goToSponsor(it) },
                             cookOnlyMode = false
                         )
