@@ -41,7 +41,7 @@ class RecipeDetailFragment : DialogFragment() {
 
         // Use the passed recipeId instead of the hardcoded value
         recipeId?.let { id ->
-            root.findViewById<MealzJourney>(R.id.recipe_detail).bind(id) {
+            root.findViewById<MealzJourney>(R.id.recipe_detail).bind(id, false) {
                 dismiss()
                 navigateToMyBasket()
             }
