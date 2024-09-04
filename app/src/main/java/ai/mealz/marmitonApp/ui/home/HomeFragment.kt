@@ -103,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun openRecipeDetailDialog(recipeId: String) {
         val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
         val newFragment = RecipeDetailFragment.newInstance(recipeId)
-        newFragment.show(ft, "dialog")
+        newFragment.show(ft, "dialogRecipe")
     }
 
     private fun deleteCache() {
