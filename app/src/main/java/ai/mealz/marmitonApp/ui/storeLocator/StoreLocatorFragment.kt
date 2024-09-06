@@ -15,6 +15,7 @@ class StoreLocatorFragment : DialogFragment() {
 
     private var _binding: FragmentStoreLocatorBinding? = null
     private val binding get() = _binding!!
+    private var hasChanged = false
 
     @SuppressLint("JavascriptInterface", "RestrictedApi")
     override fun onCreateView(
@@ -22,6 +23,8 @@ class StoreLocatorFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+
         _binding = FragmentStoreLocatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -33,6 +36,7 @@ class StoreLocatorFragment : DialogFragment() {
         }
 
         myWebView.onSelectStore = { _ ->
+            hasChanged = true
             dismiss()
         }
 
@@ -41,6 +45,9 @@ class StoreLocatorFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
+        if (!hasChanged) {
+            (requireActivity().supportFragmentManager.findFragmentByTag("dialogRecipe") as DialogFragment).dismiss()
+        }
         super.onDestroyView()
         _binding = null
     }
