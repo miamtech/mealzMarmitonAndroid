@@ -1,6 +1,5 @@
 package ai.mealz.marmitonApp.ui.recipeDetail
 
-import ai.mealz.core.Mealz
 import ai.mealz.marmiton.config.components.mealzJourney.MealzJourney
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentRecipeDetailBinding
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeDetailFragment : DialogFragment() {
