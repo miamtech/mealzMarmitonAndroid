@@ -1,55 +1,58 @@
 package ai.mealz.marmitonApp.ui.storeLocator
 
-import ai.mealz.core.Mealz
-import ai.mealz.marmiton.config.components.webview.MealzWebView
+import ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.DialogFragment
 
 
-class StoreLocatorFragment() : Fragment() {
+class StoreLocatorFragment : DialogFragment() {
 
     private var _binding: FragmentStoreLocatorBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private var hasChanged = false
 
-
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint("JavascriptInterface", "RestrictedApi")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+
         _binding = FragmentStoreLocatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val myWebView: MealzWebView = root.findViewById(R.id.store_locator)
+        // Ensure you reference the correct WebView instance
+        val myWebView: MealzStoreLocatorWebView = root.findViewById(R.id.store_locator)
         myWebView.urlToLoad = "file:///android_asset/index.html"
-        myWebView.onSelectStore = { storeId ->
-            Log.d("WebView callback", "Message reçu depuis la WebView : $storeId")
+        myWebView.onShowChange = {
+            dismiss()
         }
+
+        myWebView.onSelectStore = { _ ->
+            hasChanged = true
+            dismiss()
+        }
+
+        // Return the correctly inflated view
         return root
     }
 
     override fun onDestroyView() {
+        if (!hasChanged) {
+            (requireActivity().supportFragmentManager.findFragmentByTag("dialogRecipe") as DialogFragment).dismiss()
+        }
         super.onDestroyView()
         _binding = null
     }
 
-
+    override fun getTheme(): Int {
+        return R.style.DialogTheme
+    }
 }

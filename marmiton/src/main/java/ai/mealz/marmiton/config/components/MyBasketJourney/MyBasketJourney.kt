@@ -1,29 +1,32 @@
 package ai.mealz.marmiton.config.components.MyBasketJourney
 
+import ai.mealz.core.data.repository.retailer.RetailerRepository
+import ai.mealz.core.data.repository.supplier.SupplierRepository
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorContract
 import ai.mealz.core.viewModels.itemSelector.ItemSelectorViewModel
 import ai.mealz.core.viewModels.myBasket.MyBasketViewModel
 import ai.mealz.core.viewModels.myMeal.MyMealViewModel
-import ai.mealz.core.viewModels.myProducts.MyProductsViewModel
 import ai.mealz.sdk.components.itemSelector.ItemSelector
 import ai.mealz.sdk.components.myBasket.MyBasket
+import ai.mealz.sdk.components.transferBasket.TransferBasket
 import android.content.Context
 import android.util.AttributeSet
-import android.webkit.WebView
-import androidx.compose.foundation.layout.Box
+import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
+import ai.mealz.sdk.components.storeLocatorButton.StoreLocatorButton
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+
 
 class MyBasketJourney @JvmOverloads constructor(
     context: Context,
@@ -45,31 +48,27 @@ class MyBasketJourney @JvmOverloads constructor(
         fun goToItemSelector() {
             navController.navigate("ITEM_SELECTOR") { launchSingleTop = true }
         }
+        val storeLocatorButton = remember { StoreLocatorButtonViewModel() }
 
         NavHost(navController = navController, startDestination = "MY_BASKET") {
             composable("MY_BASKET") {
-              MyBasket.View(
-                  myBasketVm = myBasketVm,
-                  myMealsVm = myMealsVm,
-                  onButtonClickedWhenEmpty = {},
-                  onTransferBasketNavigation = {
-                      goToTransferBasket(it)
-                  },
-                  onNavigateToItemSelector = { goToItemSelector() })
+                Column {
+                    StoreLocatorButton.View(viewModel = storeLocatorButton)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    MyBasket.View(
+                        myBasketVm = myBasketVm,
+                        myMealsVm = myMealsVm,
+                        onButtonClickedWhenEmpty = {},
+                        onTransferBasketNavigation = { goToTransferBasket(it) },
+                        onNavigateToItemSelector = { goToItemSelector() }
+                    )
+                }
             }
             composable("TRANSFER_BASKET/{url}"){ backStackEntry ->
                 backStackEntry.arguments?.let { arguments ->
-                    Column {
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            AndroidView(factory = {
-                                WebView(it).apply {
-                                    this.loadUrl(arguments.getString("url") ?: "")
-                                    layoutParams = LayoutParams(
-                                        LayoutParams.MATCH_PARENT,
-                                        LayoutParams.MATCH_PARENT
-                                    )
-                                }
-                            })
+                    RetailerRepository.retailerName?.let {
+                        TransferBasket.View(url = arguments.getString("url") ?: "", retailerName = it) {
+                            navController.popBackStack()
                         }
                     }
                 }

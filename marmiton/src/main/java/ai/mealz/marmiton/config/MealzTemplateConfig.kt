@@ -1,13 +1,19 @@
 package ai.mealz.marmiton.config
 
 import ai.mealz.marmiton.R
+import ai.mealz.marmiton.config.components.webview.MarmitonBasketTransferWebview
 import ai.mealz.marmiton.config.mealzTemplates.DefaultCounter
 import ai.mealz.marmiton.config.mealzTemplates.EmptyTemplate
+import ai.mealz.marmiton.config.mealzTemplates.myBasket.MarmitonMyBasketEmpty
+import ai.mealz.marmiton.config.mealzTemplates.myBasket.MyMeal.MarmitonMyMealRecipeCard
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.MarmitonRecipeDetailFooter
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.RecipeDetailInfo
 import ai.mealz.sdk.components.MiamTheme
-import ai.mealz.sdk.components.MiamTheme.defaultViews
 import ai.mealz.sdk.components.MiamTheme.recipeDetail
+import ai.mealz.sdk.components.MiamTheme.myBasket
+import ai.mealz.sdk.components.MiamTheme.myMeal
+import ai.mealz.sdk.components.MiamTheme.myProducts
+import ai.mealz.sdk.components.MiamTheme.transferBasket
 import ai.mealz.sdk.ressource.Image
 import ai.mealz.sdk.theme.Colors
 import androidx.compose.ui.graphics.Color
@@ -43,6 +49,20 @@ class MiamTemplateManager {
                     footer { view = MarmitonRecipeDetailFooter() }
                     gapBetweenProducts = 16
                 }
+            }
+            myBasket {
+                transferBasket {
+                    success {
+                        webview { view = MarmitonBasketTransferWebview() }
+                    }
+                }
+            }
+            myMeal {
+                empty { view = MarmitonMyBasketEmpty() }
+                recipeCard { success { view = MarmitonMyMealRecipeCard() } }
+            }
+            myProducts {
+                empty { view = MarmitonMyBasketEmpty() }
             }
         }
     }

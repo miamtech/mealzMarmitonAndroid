@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-
 class MyBasketFragment : Fragment() {
 
     private var _binding: FragmentMyBasketBinding? = null
@@ -27,6 +26,7 @@ class MyBasketFragment : Fragment() {
         _binding = FragmentMyBasketBinding.inflate(inflater, container, false)
         val root: View = binding.root
         root.findViewById<MyBasket>(R.id.my_basket)
+
         return root
     }
 
