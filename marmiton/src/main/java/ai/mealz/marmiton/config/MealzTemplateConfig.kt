@@ -9,10 +9,10 @@ import ai.mealz.marmiton.config.mealzTemplates.myBasket.MyMeal.MarmitonMyMealRec
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.MarmitonRecipeDetailFooter
 import ai.mealz.marmiton.config.mealzTemplates.recipeDetail.RecipeDetailInfo
 import ai.mealz.sdk.components.MiamTheme
-import ai.mealz.sdk.components.MiamTheme.recipeDetail
 import ai.mealz.sdk.components.MiamTheme.myBasket
 import ai.mealz.sdk.components.MiamTheme.myMeal
 import ai.mealz.sdk.components.MiamTheme.myProducts
+import ai.mealz.sdk.components.MiamTheme.recipeDetail
 import ai.mealz.sdk.components.MiamTheme.transferBasket
 import ai.mealz.sdk.ressource.Image
 import ai.mealz.sdk.theme.Colors
@@ -24,7 +24,7 @@ class MiamTemplateManager {
         overrideIcon()
         overrideColors()
         MiamTheme.Template {
-            recipeDetail{
+            recipeDetail {
                 success {
                     header {
                         view = EmptyTemplate()
@@ -35,15 +35,15 @@ class MiamTemplateManager {
                     tag {
                         view = EmptyTemplate()
                     }
-                    sponsorBanner{
+                    sponsorBanner {
                         view = EmptyTemplate()
                     }
                     swapper {
                         view = EmptyTemplate()
                     }
                     products {
-                        counter  {
-                            view =  DefaultCounter()
+                        counter {
+                            view = DefaultCounter()
                         }
                     }
                     footer { view = MarmitonRecipeDetailFooter() }
@@ -71,8 +71,7 @@ class MiamTemplateManager {
         Image.cart = R.drawable.ic_add_basket
     }
 
-    private fun overrideColors()
-    {
+    private fun overrideColors() {
         Colors.primary = Color(0xFFFF6F61);
         Colors.backgroundLightGrey = Color(0XFFFEF0EE)
     }

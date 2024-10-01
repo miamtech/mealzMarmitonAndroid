@@ -51,7 +51,7 @@ object MealzManager : CoroutineScope by CoroutineScope(Dispatchers.Main) {
     }
 
     private fun startMealz() {
-        Mealz.Core() {
+        Mealz.Core {
             sdkRequirement {
                 key = supplierKey
                 context = applicationContext

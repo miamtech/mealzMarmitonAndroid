@@ -40,6 +40,7 @@ androidTestCore = "1.4.0"
 androidTestJunit = "1.1.5"
 slf4j = "1.7.36"
 mealz = "1.0.0"
+composeMaterialCore = "1.4.0"
 
 
 [libraries]
@@ -114,6 +115,7 @@ test-android-core = { module = "androidx.test:core", version.ref = "androidTestC
 test-android-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 test-android-junit = { module = "androidx.test.ext:junit", version.ref = "androidTestJunit" }
 test-slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+androidx-compose-material-core = { group = "androidx.wear.compose", name = "compose-material-core", version.ref = "composeMaterialCore" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

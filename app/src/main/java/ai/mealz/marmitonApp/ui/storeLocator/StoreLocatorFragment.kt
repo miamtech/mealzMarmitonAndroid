@@ -45,8 +45,11 @@ class StoreLocatorFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
-        if (!hasChanged) {
-            (requireActivity().supportFragmentManager.findFragmentByTag("dialogRecipe") as DialogFragment).dismiss()
+        val dialog = requireActivity().supportFragmentManager.findFragmentByTag("dialogRecipe")
+        if (!hasChanged && dialog != null) {
+
+            
+            (dialog as DialogFragment).dismiss()
         }
         super.onDestroyView()
         _binding = null

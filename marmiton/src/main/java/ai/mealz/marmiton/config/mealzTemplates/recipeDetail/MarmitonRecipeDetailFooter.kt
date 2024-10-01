@@ -10,6 +10,7 @@ import ai.mealz.sdk.components.price.formatPrice
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooter
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooterParameters
 import ai.mealz.sdk.ressource.Image.cart
+import ai.mealz.sdk.theme.Colors.primary
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -79,7 +80,7 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                     ComponentUiState.SUCCESS, ComponentUiState.LOADING -> Column {
                         if (params.priceStatus == ComponentUiState.LOADING) {
                             Box(Modifier.size(16.dp)) {
-                                CircularProgressIndicator(color = ai.mealz.sdk.theme.Colors.primary)
+                                CircularProgressIndicator(color = primary)
                             }
                         }
                         if (params.priceStatus != ComponentUiState.LOADING && priceOfProductsInBasket.value > 0) {
