@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -8,70 +7,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"> <!-- Center all content horizontally -->
+        android:gravity="center_horizontal"
+        android:orientation="vertical"> <!-- Center all content horizontally -->
 
         <!-- Recipe 1 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Sample Recipe 1"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_launch_recipe_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Launch"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="?android:attr/selectableItemBackground" />
+        <ai.mealz.sdk.components.recipeDetailButton.RecipeDetailButton
+            android:id="@+id/recipe1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button_show_price_recipe_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Price"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginBottom="16dp" />
+        <ai.mealz.sdk.components.recipePrice.RecipePrice
+            android:id="@+id/recipe1_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <!-- Recipe 2 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Sample Recipe 2"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_launch_recipe_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Launch"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="?android:attr/selectableItemBackground" />
+        <ai.mealz.sdk.components.recipeDetailButton.RecipeDetailButton
+            android:id="@+id/recipe2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button_show_price_recipe_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Price"
-            android:textColor="@android:color/holo_blue_dark"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginBottom="16dp" />
+        <ai.mealz.sdk.components.recipePrice.RecipePrice
+            android:id="@+id/recipe2_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <!-- Delete all cache button -->
         <Button
             android:id="@+id/button_delete_cache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete all cache for next run"
-            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="24dp"
             android:background="?android:attr/selectableItemBackground"
-            android:layout_marginTop="24dp" />
+            android:text="Delete all cache for next run"
+            android:textColor="@android:color/holo_blue_dark" />
 
     </LinearLayout>
 </ScrollView>
