@@ -1,10 +1,7 @@
 package ai.mealz.marmiton.config.mealzTemplates.recipeDetail
 
 import ai.mealz.core.base.state.ComponentUiState
-import ai.mealz.core.di.MealzDI
 import ai.mealz.core.localisation.Localisation
-import ai.mealz.core.services.Analytics
-import ai.mealz.core.services.Analytics.Companion.EVENT_BASKET_PREVIEW
 import ai.mealz.core.viewModels.dynamicRecipeDetailFooter.IngredientStatusTypes
 import ai.mealz.sdk.components.price.formatPrice
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooter
@@ -38,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
+class MarmitonRecipeDetailFooter : RecipeDetailSuccessFooter {
     @Composable
     override fun Content(params: RecipeDetailSuccessFooterParameters) {
         View(RecipeDetailSuccessFooterParameters(
@@ -50,9 +47,6 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
             ingredientsStatus = params.ingredientsStatus,
             isButtonLock = params.isButtonLock,
             onConfirm = {
-                if (params.ingredientsStatus.type == IngredientStatusTypes.NO_MORE_TO_ADD) {
-                    MealzDI.analyticsService.sendEvent(EVENT_BASKET_PREVIEW, "", Analytics.PlausibleProps())
-                }
                 params.onConfirm()
             }
         ))
@@ -77,6 +71,7 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                     ComponentUiState.EMPTY, ComponentUiState.IDLE -> {
                         Box {} // show nothing until price is loaded
                     }
+
                     ComponentUiState.SUCCESS, ComponentUiState.LOADING -> Column {
                         if (params.priceStatus == ComponentUiState.LOADING) {
                             Box(Modifier.size(16.dp)) {
@@ -86,14 +81,22 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                         if (params.priceStatus != ComponentUiState.LOADING && priceOfProductsInBasket.value > 0) {
                             Text(
                                 text = priceOfProductsInBasket.value.formatPrice(),
-                                style = TextStyle(fontSize = 16.sp, color = ai.mealz.sdk.theme.Colors.primary, fontWeight = FontWeight.Black)
+                                style = TextStyle(
+                                    fontSize = 16.sp,
+                                    color = ai.mealz.sdk.theme.Colors.primary,
+                                    fontWeight = FontWeight.Black
+                                )
                             )
                             Text(
                                 text = Localisation.recipeDetails.inMyBasket.localised,
-                                style = TextStyle(fontSize = 10.sp, color = ai.mealz.sdk.theme.Colors.grey)
+                                style = TextStyle(
+                                    fontSize = 10.sp,
+                                    color = ai.mealz.sdk.theme.Colors.grey
+                                )
                             )
                         }
                     }
+
                     else -> {}
                 }
             }
@@ -103,8 +106,9 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                 when (params.ingredientsStatus.type) {
                     IngredientStatusTypes.NO_MORE_TO_ADD -> ContinueButton(text = Localisation.recipeDetails.continueShopping.localised) { params.onConfirm() }
                     IngredientStatusTypes.REMAINING_INGREDIENTS_TO_BE_ADDED, IngredientStatusTypes.INITIAL_STATE -> {
-                        AddButton(text =
-                        "${Localisation.ingredient.addProduct(params.ingredientsStatus.count).localised} (${priceOfRemainingProducts.value.formatPrice()})"
+                        AddButton(
+                            text =
+                            "${Localisation.ingredient.addProduct(params.ingredientsStatus.count).localised} (${priceOfRemainingProducts.value.formatPrice()})"
                         ) { params.onConfirm() }
                     }
                 }
@@ -139,7 +143,14 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
             ) {
                 Image(painter = painterResource(cart), contentDescription = "$cart")
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = text, style = TextStyle(fontSize = 16.sp, color = ai.mealz.sdk.theme.Colors.white, fontWeight = FontWeight.Black))
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = ai.mealz.sdk.theme.Colors.white,
+                        fontWeight = FontWeight.Black
+                    )
+                )
             }
         }
     }
@@ -157,7 +168,14 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = text, style = TextStyle(fontSize = 16.sp, color = ai.mealz.sdk.theme.Colors.white, fontWeight = FontWeight.Black))
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = ai.mealz.sdk.theme.Colors.white,
+                        fontWeight = FontWeight.Black
+                    )
+                )
             }
         }
     }

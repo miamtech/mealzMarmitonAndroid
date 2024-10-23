@@ -1,8 +1,6 @@
 package ai.mealz.marmiton.config.components.webview
 
 import ai.mealz.core.Mealz
-import ai.mealz.core.di.MealzDI
-import ai.mealz.core.services.Analytics
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -38,12 +36,13 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): AbstractComposeView(context, attrs, defStyleAttr) {
+) : AbstractComposeView(context, attrs, defStyleAttr) {
 
     var webview: WebView? = null
     var onShowChange: (() -> Unit)? = null
     var onSelectStore: ((String) -> Unit)? = null
     var urlToLoad: String? = null
+
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -64,9 +63,11 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                     this.post {
                         run {
                             this.loadUrl(urlToLoad ?: error("Should pass an url in webview"))
-                            MealzDI.analyticsService.sendEvent(Analytics.EVENT_PAGEVIEW, "/locator", Analytics.PlausibleProps())
                             this.addJavascriptInterface(
-                                MyJavaScriptInterface(onShowChange = onShowChange, onSelectStore = onSelectStore),
+                                MyJavaScriptInterface(
+                                    onShowChange = onShowChange,
+                                    onSelectStore = onSelectStore
+                                ),
                                 "Mealz"
                             )
                         }
@@ -77,7 +78,10 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     }
 
 
-    class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
+    class MyJavaScriptInterface(
+        var onShowChange: (() -> Unit)?,
+        var onSelectStore: ((String) -> Unit)?
+    ) {
 
         @JavascriptInterface
         fun postMessage(reciveMessage: String) {
@@ -92,19 +96,15 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                     if (data.message == "posIdChange") {
                         data.posId?.let { posId ->
                             Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
-                                data.posName?.let { posName ->
-                                    MealzDI.analyticsService.sendEvent(
-                                        Analytics.EVENT_POS_SELECTED,
-                                        "",
-                                        Analytics.PlausibleProps(pos_id = posId, pos_name = posName)
-                                    )
-                                }
                                 this.onSelectStore?.let { it(posId) }
                             }
                         }
                         data.supplierId?.let { supplierId ->
                             data.supplierName?.let { supplierName ->
-                                Mealz.user.setRetailer(retailerId = supplierId, retailerName = supplierName)
+                                Mealz.user.setRetailer(
+                                    retailerId = supplierId,
+                                    retailerName = supplierName
+                                )
                             }
                         }
                     }

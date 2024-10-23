@@ -2,7 +2,7 @@
 # Plugins
 kotlin = "1.9.22"
 mokoRes = "0.20.1"
-androidBuild = "8.2.0"
+androidBuild = "8.2.2"
 nexusPublish = "1.1.0"
 mockmp = "1.10.0"
 # Android / Compose
@@ -56,7 +56,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
 
-squareup-retrofit2 = { module =  "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+squareup-retrofit2 = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 squareup-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "moshi" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

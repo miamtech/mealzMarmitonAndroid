@@ -26,15 +26,3 @@ include(":app")
 include(":marmiton")
 
 // FOR DEV PURPOSE
-/**
-includeBuild("../MealzCore") {
-dependencySubstitution {
-substitute(module("ai.mealz.core:mealzcore")).using(project(":mealzcore"))
-}
-}
-includeBuild("../MealzAndroid") {
-dependencySubstitution {
-substitute(module("ai.mealz.android:sdk")).using(project(":sdk"))
-}
-}
- */
