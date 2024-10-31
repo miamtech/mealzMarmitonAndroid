@@ -12,7 +12,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,6 +24,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -39,8 +40,7 @@ android {
 }
 
 dependencies {
-    implementation("ai.mealz.core:mealz-core:4.1.0-alpha")
-    implementation("ai.mealz.android:mealz-android:4.1.0-alpha")
+    implementation("ai.mealz.android:mealz-android:5.0.0")
     implementation(project(mapOf("path" to ":marmiton")))
     implementation(libs.squareup.retrofit2)
     implementation("com.google.android.material:material:1.11.0")

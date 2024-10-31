@@ -11,7 +11,7 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://github.com/miamtech/releaseMealz/raw/main")
         }
-        maven { url = uri( "https://jitpack.io") }
+        maven { url = uri("https://jitpack.io") }
         google()
         mavenCentral()
 
@@ -28,12 +28,13 @@ include(":marmiton")
 // FOR DEV PURPOSE
 /**
 includeBuild("../MealzCore") {
-    dependencySubstitution {
-        substitute(module("ai.mealz.core:mealzcore")).using(project(":mealzcore"))
-    }
+dependencySubstitution {
+substitute(module("ai.mealz.core:mealzcore")).using(project(":mealzcore"))
+}
 }
 includeBuild("../MealzAndroid") {
-    dependencySubstitution {
-        substitute(module("ai.mealz.android:sdk")).using(project(":sdk"))
-    }
-}*/
+dependencySubstitution {
+substitute(module("ai.mealz.android:sdk")).using(project(":sdk"))
+}
+}
+ */
