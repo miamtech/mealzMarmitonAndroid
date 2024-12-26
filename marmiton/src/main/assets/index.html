@@ -86,6 +86,20 @@
           getAffiliateSuppliers: getAffiliateSuppliers
         }
       }
+
+     function searchBasedOnGeoLocation(latitude, longitude) {
+     console.log('[Mealz components] searchBasedOnGeoLocation:', latitude);
+     console.log('[Mealz components] searchBasedOnGeoLocation:', longitude);
+        const geolocationPosition = {
+            coords: {
+                longitude: longitude,
+                latitude: latitude,
+            },
+            timestamp: Date.now()
+        };
+
+       storeLocatorElement.geolocationCoordinates = geolocationPosition;
+    };
     </script>
 </body>
 </html>

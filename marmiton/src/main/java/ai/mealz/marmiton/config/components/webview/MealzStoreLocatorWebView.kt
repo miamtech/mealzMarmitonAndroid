@@ -3,18 +3,24 @@ package ai.mealz.marmiton.config.components.webview
 import ai.mealz.core.Mealz
 import ai.mealz.core.di.MealzDI
 import ai.mealz.core.services.Analytics
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -39,12 +45,14 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): AbstractComposeView(context, attrs, defStyleAttr) {
+): AbstractComposeView(context, attrs, defStyleAttr), DefaultLifecycleObserver {
 
     var webview: WebView? = null
     var onShowChange: (() -> Unit)? = null
     var onSelectStore: ((String) -> Unit)? = null
+    var onRequestPermission: (() -> Unit)? = null
     var urlToLoad: String? = null
+
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -74,10 +82,8 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                             this.webViewClient = object : WebViewClient() {
                                 override fun onPageFinished(view: WebView?, url: String?) {
                                     super.onPageFinished(view, url)
-                                    // we have to make sure the webview has shown & JS enabled so we wait 1 second
-                                    view?.postDelayed({
-                                        searchFromCoords(view, "3.02", "50.2")
-                                    }, 1000)
+                                    // Once the page finishes loading, fetch the location
+                                    handleLocationPermission(context)
                                 }
                             }
                         }
@@ -87,12 +93,56 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
         }
     }
 
+    // ------------------------ LIFECYCLE TO CHECK RESULT OF PERMISSION UPDATE ---------------------
+    fun attachToLifecycle(lifecycle: Lifecycle) {
+        lifecycle.addObserver(this)
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        recheckLocationPermission()
+    }
+
+    private fun recheckLocationPermission(): Boolean {
+        if (PermissionHelper.hasLocationPermission(context)) {
+            fetchUserLocation(context)
+            return true
+        }
+        return false
+    }
+
+    // Function to search Mealz API based on coordinates (calls JS function)
     @JavascriptInterface
-    fun searchFromCoords(webView: WebView, latitude: String, longitude: String) {
-        val jsCode = "searchBasedOnGeoLocation('$latitude', '$longitude');"
-        webView.post {
+    fun searchFromCoords(webView: WebView?, latitude: String, longitude: String) {
+//        val jsCode = "searchBasedOnGeoLocation('$latitude', '$longitude');"
+        val jsCode = "searchBasedOnGeoLocation('$longitude', '$latitude');"
+        webView?.post {
             webView.evaluateJavascript(jsCode) { _ -> }
         }
+    }
+
+    private fun handleLocationPermission(context: Context) {
+        if (!recheckLocationPermission()) {
+            onRequestPermission?.invoke() ?: run {
+                Toast.makeText(context, "Activity context is required to request permissions.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // If location permission granted, will get user coordinates & launch search
+    @SuppressLint("MissingPermission")
+    fun fetchUserLocation(context: Context) {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null)
+                    searchFromCoords(webview, location.latitude.toString(), location.longitude.toString())
+                else
+                    Toast.makeText(context, "Failed to fetch location.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Error fetching location: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
