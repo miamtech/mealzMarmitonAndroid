@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -47,7 +48,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize()) {
-            AndroidView(factory = {
+            AndroidView(factory = { it ->
                 WebView(it).apply {
                     this.layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -75,7 +76,6 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
             })
         }
     }
-
 
     class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
 
