@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -47,7 +48,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     @Composable
     override fun Content() {
         Box(modifier = Modifier.fillMaxSize()) {
-            AndroidView(factory = {
+            AndroidView(factory = { it ->
                 WebView(it).apply {
                     this.layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -69,6 +70,16 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                                 MyJavaScriptInterface(onShowChange = onShowChange, onSelectStore = onSelectStore),
                                 "Mealz"
                             )
+
+                            this.webViewClient = object : WebViewClient() {
+                                override fun onPageFinished(view: WebView?, url: String?) {
+                                    super.onPageFinished(view, url)
+                                    // we have to make sure the webview has shown & JS enabled so we wait 1 second
+                                    view?.postDelayed({
+                                        searchFromCoords(view, "3.02", "50.2")
+                                    }, 1000)
+                                }
+                            }
                         }
                     }
                 }
@@ -76,6 +87,13 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
         }
     }
 
+    @JavascriptInterface
+    fun searchFromCoords(webView: WebView, latitude: String, longitude: String) {
+        val jsCode = "searchBasedOnGeoLocation('$latitude', '$longitude');"
+        webView.post {
+            webView.evaluateJavascript(jsCode) { _ -> }
+        }
+    }
 
     class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
 
