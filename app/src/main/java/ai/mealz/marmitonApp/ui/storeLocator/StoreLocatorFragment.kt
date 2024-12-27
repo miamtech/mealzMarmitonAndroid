@@ -1,6 +1,7 @@
 package ai.mealz.marmitonApp.ui.storeLocator
 
 import ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
+import ai.mealz.marmiton.config.components.webview.PermissionHelper
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
 import android.annotation.SuppressLint
@@ -35,10 +36,17 @@ class StoreLocatorFragment : DialogFragment() {
             dismiss()
         }
 
+        myWebView.onRequestPermission = {
+            PermissionHelper.requestLocationPermission(requireActivity()) // Request permissions from the Activity
+        }
+
         myWebView.onSelectStore = { _ ->
             hasChanged = true
             dismiss()
         }
+
+        // Attach lifecycle to WebView for permission recheck
+        myWebView.attachToLifecycle(viewLifecycleOwner.lifecycle)
 
         // Return the correctly inflated view
         return root
