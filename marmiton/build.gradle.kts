@@ -63,6 +63,7 @@ dependencies {
     api(libs.koin.android)
     api(libs.coil.compose)
     api(libs.coil.svg)
+    api(libs.play.services.location)
 
     api(libs.androidx.navigation.runtime.ktx)
     api(libs.androidx.navigation.compose)
