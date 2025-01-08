@@ -37,6 +37,37 @@
       Mealz.postMessage(JSON.stringify(jsonObject));
     })
 
+    storeLocatorElement.addEventListener('searchChange', (e) => {
+        var jsonObject = {
+            message: "searchChange",
+            searchTerm : e.detail.searchTerm,
+            numberOfResults : e.detail.storesFoundCount
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('filterChange', (e) => {
+        var jsonObject = {
+            message: "filterChange",
+            supplierName : e.detail.supplierName
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('mapSelected', (e) => {
+        var jsonObject = {
+            message: "mapSelected"
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('listSelected', (e) => {
+        var jsonObject = {
+            message: "listSelected"
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
     function getByAddress(address, radius, selectedSuppliers) {
       const getByAddressRequest = new XMLHttpRequest();
       let url = `https://api.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;

@@ -4,7 +4,6 @@ import ai.mealz.core.base.state.ComponentUiState
 import ai.mealz.core.di.MealzDI
 import ai.mealz.core.localisation.Localisation
 import ai.mealz.core.services.Analytics
-import ai.mealz.core.services.Analytics.Companion.EVENT_BASKET_PREVIEW
 import ai.mealz.core.viewModels.dynamicRecipeDetailFooter.IngredientStatusTypes
 import ai.mealz.sdk.components.price.formatPrice
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooter
@@ -50,9 +49,6 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
             ingredientsStatus = params.ingredientsStatus,
             isButtonLock = params.isButtonLock,
             onConfirm = {
-                if (params.ingredientsStatus.type == IngredientStatusTypes.NO_MORE_TO_ADD) {
-                    MealzDI.analyticsService.sendEvent(EVENT_BASKET_PREVIEW, "", Analytics.PlausibleProps())
-                }
                 params.onConfirm()
             }
         ))
