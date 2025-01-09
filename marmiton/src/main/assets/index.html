@@ -1,91 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MY WEBVIEW</title>
-
-  <!-- LOAD STORE LOCATOR SCRIPT HERE -->
-  <script type="module" src="https://unpkg.com/mealz-components@1/dist/store-locator/store-locator.min.js"></script>
-<!--  <script type="module" src="store-locator.min.js"></script>--> <!-- for testing -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY WEBVIEW</title>
+    <!-- LOAD STORE LOCATOR SCRIPT HERE -->
+    <script type="module" src="https://unpkg.com/mealz-components/dist/store-locator/store-locator.min.js"></script>
+    <!--  <script type="module" src="store-locator.min.js"></script>--> <!-- for testing -->
 </head>
 <body>
 <!-- Will show store locator on page load -->
 <mealz-store-locator show></mealz-store-locator>
 <script>
-      const storeLocatorElement = document.querySelector('mealz-store-locator');
-      storeLocatorElement.addEventListener('posIdChange', (e) => {
-        console.log('POS selected!', JSON.stringify(e.detail));
+    const storeLocatorElement = document.querySelector('mealz-store-locator');
+
+    storeLocatorElement.addEventListener('posIdChange', (e) => {
+      console.log('POS selected!', JSON.stringify(e.detail));
+      var jsonObject = {
+          message: "posIdChange",
+          posId : e.detail.posId,
+          posExtId : e.detail.posExtId,
+          supplierId : e.detail.supplierId,
+          supplierName : e.detail.supplierName,
+          posName : e.detail.posName
+      };
+      Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('showChange', (e) => {
+      console.log('showChange', e.detail.show);
+      var jsonObject = {
+          message: "showChange",
+          value:  e.detail.show
+      };
+      Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('searchChange', (e) => {
         var jsonObject = {
-            message: "posIdChange",
-            posId : e.detail.posId,
-            posExtId : e.detail.posExtId,
-            supplierId : e.detail.supplierId,
-            supplierName : e.detail.supplierName,
-            posName : e.detail.posName
+            message: "searchChange",
+            searchTerm : e.detail.searchTerm,
+            numberOfResults : e.detail.storesFoundCount
         };
         Mealz.postMessage(JSON.stringify(jsonObject));
-      })
+    })
 
-      storeLocatorElement.addEventListener('showChange', (e) => {
-        console.log('showChange', e.detail.show);
-
+    storeLocatorElement.addEventListener('filterChange', (e) => {
         var jsonObject = {
-            message: "showChange",
-            value:  e.detail.show
+            message: "filterChange",
+            supplierName : e.detail.supplierName
         };
-
         Mealz.postMessage(JSON.stringify(jsonObject));
-      })
+    })
 
-      function getByAddress(address, radius, selectedSuppliers) {
-        const getByAddressRequest = new XMLHttpRequest();
-        let url = `https://api.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;
+    storeLocatorElement.addEventListener('mapSelected', (e) => {
+        var jsonObject = {
+            message: "mapSelected"
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    storeLocatorElement.addEventListener('listSelected', (e) => {
+        var jsonObject = {
+            message: "listSelected"
+        };
+        Mealz.postMessage(JSON.stringify(jsonObject));
+    })
+
+    function getByAddress(address, radius, selectedSuppliers) {
+      const getByAddressRequest = new XMLHttpRequest();
+      let url = `https://api.miam.tech/api/v1/point-of-sales/search?address=${address}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;
+      if (selectedSuppliers.length > 0) {
+        url += `&filter[supplier_id]=${selectedSuppliers.join(',')}`
+      }
+      getByAddressRequest.open('GET', url);
+      return {
+        subscribe: function(callback) {
+          console.debug('[Mealz components] Request getByAddress()');
+          getByAddressRequest.onload = () => {
+            const resp = JSON.parse(getByAddressRequest.response);
+            console.debug('[Mealz components] getByAddress response received', resp);
+            callback(resp);
+          }
+          getByAddressRequest.send();
+        }
+      };
+    }
+
+    function getAffiliateSuppliers() {
+      const getAffiliateSuppliersRequest = new XMLHttpRequest();
+      const url = `https://api.miam.tech/api/v1/suppliers?filter[affiliate]=true`;
+      getAffiliateSuppliersRequest.open('GET', url);
+      return {
+        subscribe: function(callback) {
+          console.debug('[Mealz components] Request getAffiliateSuppliers()');
+          getAffiliateSuppliersRequest.onload = () => {
+            const resp = JSON.parse(getAffiliateSuppliersRequest.response);
+            console.debug('[Mealz components] getAffiliateSuppliers response received', resp.data);
+            callback(resp.data);
+            // if we do not have coords, we input null to prevent the infini loader
+            if (window["latitude"] == null || window["latitude"] == null) {
+                storeLocatorElement.geolocationCoordinates = null;
+            }
+          }
+          getAffiliateSuppliersRequest.send();
+        }
+      };
+    }
+
+   function getByCoordinates(lng, lat, radius, selectedSuppliers) {
+        const getByCoordsRequest = new XMLHttpRequest();
+        let url = `https://api.miam.tech/api/v1/point-of-sales/search?latitude=${lat}&longitude=${lng}&max_distance_km=${radius}&include=supplier&filter[affiliate]=true`;
         if (selectedSuppliers.length > 0) {
-          url += `&filter[supplier]=${selectedSuppliers.join(',')}`
+          url += `&filter[supplier_id]=${selectedSuppliers.join(',')}`
         }
-        getByAddressRequest.open('GET', url);
-
+        getByCoordsRequest.open('GET', url);
         return {
           subscribe: function(callback) {
-            console.debug('[Mealz components] Request getByAddress()');
-            getByAddressRequest.onload = () => {
-              const resp = JSON.parse(getByAddressRequest.response);
-              console.debug('[Mealz components] getByAddress response received', resp);
-              callback(resp);
-            }
-            getByAddressRequest.send();
+            getByCoordsRequest.onload = () => {
+                try {
+                    const resp = JSON.parse(getByCoordsRequest.response);
+                    callback(resp);
+                } catch (error) {
+                    console.log('[Mealz components] Failed to process response:', error.message);
+                    console.log('[Mealz components] Raw response text:', getByCoordsRequest.response);
+                }
+            };
+            getByCoordsRequest.send();
           }
         };
-      }
+   }
 
-      function getAffiliateSuppliers() {
-        const getAffiliateSuppliersRequest = new XMLHttpRequest();
-        const url = `https://api.miam.tech/api/v1/suppliers?filter[affiliate]=true`;
-        getAffiliateSuppliersRequest.open('GET', url);
-
-        return {
-          subscribe: function(callback) {
-            console.debug('[Mealz components] Request getAffiliateSuppliers()');
-            getAffiliateSuppliersRequest.onload = () => {
-              const resp = JSON.parse(getAffiliateSuppliersRequest.response);
-              console.debug('[Mealz components] getAffiliateSuppliers response received', resp.data);
-              callback(resp.data);
-            }
-            getAffiliateSuppliersRequest.send();
-          }
-        };
+    window.mealz = {
+      pos: {
+        getByAddress: getByAddress,
+        getByCoordinates: getByCoordinates
+      },
+      supplier: {
+        getAffiliateSuppliers: getAffiliateSuppliers
       }
+    }
 
-      window.mealz = {
-        pos: {
-          getByAddress: getByAddress
-        },
-        supplier: {
-          getAffiliateSuppliers: getAffiliateSuppliers
-        }
-      }
-    </script>
+   function searchBasedOnGeoLocation(latitude, longitude) {
+      const geolocationPosition = {
+          coords: {
+              longitude: longitude,
+              latitude: latitude,
+          },
+          timestamp: Date.now()
+      };
+     storeLocatorElement.geolocationCoordinates = geolocationPosition;
+  };
+</script>
 </body>
 </html>
