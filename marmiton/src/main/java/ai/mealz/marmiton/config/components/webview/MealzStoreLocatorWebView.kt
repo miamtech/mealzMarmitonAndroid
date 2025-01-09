@@ -1,8 +1,8 @@
 package ai.mealz.marmiton.config.components.webview
 
 import ai.mealz.core.Mealz
-import ai.mealz.core.di.MealzDI
-import ai.mealz.core.services.Analytics
+import ai.mealz.core.handler.LogHandler
+import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
@@ -21,25 +21,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.location.LocationServices
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-@Serializable
-data class ShowChangeEvent(
-    val message: String,
-    val value: Boolean
-)
-
-@Serializable
-data class PosIdChangeEvent(
-    val message: String,
-    val posId: String?,
-    val posExtId: String?,
-    val supplierId: String?,
-    val posName: String?,
-
-    val supplierName: String?
-)
 
 class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
@@ -58,9 +41,9 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
         Box(modifier = Modifier.fillMaxSize()) {
             AndroidView(factory = { it ->
                 WebView(it).apply {
-                    this.layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
+                    this.layoutParams = LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT
                     )
                     this.settings.javaScriptEnabled = true
                     this.settings.allowFileAccessFromFileURLs = true
@@ -73,7 +56,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                     this.post {
                         run {
                             this.loadUrl(urlToLoad ?: error("Should pass an url in webview"))
-                            MealzDI.analyticsService.sendEvent(Analytics.EVENT_PAGEVIEW, "/locator", Analytics.PlausibleProps())
+                            StoreLocatorButtonViewModel.sendPageView()
                             this.addJavascriptInterface(
                                 MyJavaScriptInterface(onShowChange = onShowChange, onSelectStore = onSelectStore),
                                 "Mealz"
@@ -145,41 +128,64 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     }
 
     class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
+        private val json = Json {
+            classDiscriminator = "message" // This field determines which subclass to use
+            ignoreUnknownKeys = true // Ignore unknown fields in the JSON
+        }
 
         @JavascriptInterface
-        fun postMessage(reciveMessage: String) {
+        fun postMessage(receiveMessage: String) {
             try {
-                val data = Json.decodeFromString<ShowChangeEvent>(reciveMessage)
-                if (data.message == "showChange" && !data.value) {
-                    this.onShowChange?.let { it() }
-                }
+                // Deserialize JSON into a polymorphic Message object
+                val message = json.decodeFromString<Message>(receiveMessage)
+                handleMessage(message)
             } catch (e: Exception) {
-                try {
-                    val data = Json.decodeFromString<PosIdChangeEvent>(reciveMessage)
-                    if (data.message == "posIdChange") {
-                        data.posId?.let { posId ->
-                            Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
-                                data.posName?.let { posName ->
-                                    MealzDI.analyticsService.sendEvent(
-                                        Analytics.EVENT_POS_SELECTED,
-                                        "",
-                                        Analytics.PlausibleProps(pos_id = posId, pos_name = posName)
-                                    )
-                                }
-                                this.onSelectStore?.let { it(posId) }
-                            }
-                        }
-                        data.supplierId?.let { supplierId ->
-                            data.supplierName?.let { supplierName ->
-                                Mealz.user.setRetailer(retailerId = supplierId, retailerName = supplierName)
-                            }
+                LogHandler.error("Error parsing JSON: $e")
+            }
+        }
+
+        private fun handleMessage(message: Message) {
+            when (message) {
+                is PosIdChangeEvent -> handlePosIdChange(message)
+                is ShowChangeEvent -> handleShowChange(message)
+                is SearchChangeMessage ->
+                    StoreLocatorButtonViewModel.sendLocatorSearchEvent(
+                        message.searchTerm,
+                        message.numberOfResults
+                    )
+                is FilterChangeMessage ->
+                    StoreLocatorButtonViewModel.sendLocatorFilterEvent(message.supplierName)
+                is MapSelectedMessage -> StoreLocatorButtonViewModel.sendDisplayMapEvent()
+                is ListSelectedMessage -> StoreLocatorButtonViewModel.sendDisplayListEvent()
+            }
+        }
+
+        private fun handlePosIdChange(message: PosIdChangeEvent) {
+            message.posId?.let { posId ->
+                Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
+                    message.posName?.let { posName ->
+                        message.supplierName?.let { supplierName ->
+                            StoreLocatorButtonViewModel.sendLocatorSelectEvent(
+                                posId = posId,
+                                posName = posName,
+                                supplierName = supplierName
+                            )
                         }
                     }
-
-
-                } catch (e: Exception) {
-                    println("Erreur lors de la désérialisation JSON: $e")
+                    this.onSelectStore?.let { it(posId) }
                 }
+            }
+            message.supplierId?.let { supplierId ->
+                message.supplierName?.let { supplierName ->
+                    Mealz.user.setRetailer(retailerId = supplierId, retailerName = supplierName)
+                }
+            }
+        }
+
+        private fun handleShowChange(message: ShowChangeEvent) {
+            if (!message.value) {
+                StoreLocatorButtonViewModel.sendLocatorBackEvent()
+                onShowChange?.invoke()
             }
         }
     }
