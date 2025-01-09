@@ -1,6 +1,7 @@
 package ai.mealz.marmiton.config.components.webview
 
 import ai.mealz.core.Mealz
+import ai.mealz.core.data.repository.pointOfSale.PointOfSaleRepository
 import ai.mealz.core.di.MealzDI
 import ai.mealz.core.services.Analytics
 import android.content.Context
@@ -91,6 +92,9 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                     val data = Json.decodeFromString<PosIdChangeEvent>(reciveMessage)
                     if (data.message == "posIdChange") {
                         data.posId?.let { posId ->
+                            if(PointOfSaleRepository.pointOfSaleMealzId == posId) {
+                                this.onSelectStore?.let { it(posId) }
+                            }else
                             Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
                                 data.posName?.let { posName ->
                                     MealzDI.analyticsService.sendEvent(

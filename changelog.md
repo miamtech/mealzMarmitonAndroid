@@ -1,3 +1,6 @@
+## 1.0.2
+[FIX] store locator select same poi
+
 ## 1.0.1
 [FIX] Fix store-locator did not list affiliated suppliers
 [FIX] fix web view deep linking
