@@ -1,6 +1,7 @@
 package ai.mealz.marmiton.config.components.webview
 
 import ai.mealz.core.Mealz
+import ai.mealz.core.data.repository.pointOfSale.PointOfSaleRepository
 import ai.mealz.core.handler.LogHandler
 import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import android.annotation.SuppressLint
@@ -162,17 +163,21 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
 
         private fun handlePosIdChange(message: PosIdChangeEvent) {
             message.posId?.let { posId ->
-                Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
-                    message.posName?.let { posName ->
-                        message.supplierName?.let { supplierName ->
-                            StoreLocatorButtonViewModel.sendLocatorSelectEvent(
-                                posId = posId,
-                                posName = posName,
-                                supplierName = supplierName
-                            )
-                        }
-                    }
+                if (PointOfSaleRepository.pointOfSaleMealzId == posId) {
                     this.onSelectStore?.let { it(posId) }
+                } else {
+                  Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
+                      message.posName?.let { posName ->
+                          message.supplierName?.let { supplierName ->
+                              StoreLocatorButtonViewModel.sendLocatorSelectEvent(
+                                  posId = posId,
+                                  posName = posName,
+                                  supplierName = supplierName
+                              )
+                          }
+                      }
+                      this.onSelectStore?.let { it(posId) }
+                  }
                 }
             }
             message.supplierId?.let { supplierId ->
