@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    api("ai.mealz.android:mealz-android:5.0.0")
+    api("ai.mealz.android:mealz-android:5.4.0")
     api(libs.android.material)
     api(libs.ktor.client.serialization)
     api(libs.kotlinx.coroutines.core)
@@ -63,6 +63,7 @@ dependencies {
     api(libs.koin.android)
     api(libs.coil.compose)
     api(libs.coil.svg)
+    api(libs.play.services.location)
 
     api(libs.androidx.navigation.runtime.ktx)
     api(libs.androidx.navigation.compose)
