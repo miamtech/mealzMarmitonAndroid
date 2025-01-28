@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    api("ai.mealz.android:mealz-android:5.4.0")
+    api("ai.mealz.android:mealz-android:5.5.0")
     api(libs.android.material)
     api(libs.ktor.client.serialization)
     api(libs.kotlinx.coroutines.core)
