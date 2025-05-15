@@ -183,7 +183,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                 if (PointOfSaleRepository.pointOfSaleMealzId == posId) {
                     this.onSelectStore?.let { it(posId) }
                 } else {
-                    Mealz.user.setStoreWithMealzIdWithCallBack(posId, message.supplierId) {
+                    Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
                         message.posName?.let { posName ->
                             message.supplierName?.let { supplierName ->
                                 StoreLocatorButtonViewModel.sendLocatorSelectEvent(
