@@ -7,7 +7,6 @@ import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -29,7 +28,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): AbstractComposeView(context, attrs, defStyleAttr), DefaultLifecycleObserver {
+) : AbstractComposeView(context, attrs, defStyleAttr), DefaultLifecycleObserver {
 
     var webview: WebView? = null
     var onShowChange: (() -> Unit)? = null
@@ -59,7 +58,10 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                             this.loadUrl(urlToLoad ?: error("Should pass an url in webview"))
                             StoreLocatorButtonViewModel.sendPageView()
                             this.addJavascriptInterface(
-                                MyJavaScriptInterface(onShowChange = onShowChange, onSelectStore = onSelectStore),
+                                MyJavaScriptInterface(
+                                    onShowChange = onShowChange,
+                                    onSelectStore = onSelectStore
+                                ),
                                 "Mealz"
                             )
 
@@ -107,7 +109,11 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     private fun handleLocationPermission(context: Context) {
         if (!recheckLocationPermission()) {
             onRequestPermission?.invoke() ?: run {
-                Toast.makeText(context, "Activity context is required to request permissions.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Activity context is required to request permissions.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -119,16 +125,27 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 if (location != null)
-                    searchFromCoords(webview, location.latitude.toString(), location.longitude.toString())
+                    searchFromCoords(
+                        webview,
+                        location.latitude.toString(),
+                        location.longitude.toString()
+                    )
                 else
                     Toast.makeText(context, "Failed to fetch location.", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Error fetching location: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Error fetching location: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
-    class MyJavaScriptInterface(var onShowChange: (() -> Unit)?, var onSelectStore: ((String) -> Unit)?) {
+    class MyJavaScriptInterface(
+        var onShowChange: (() -> Unit)?,
+        var onSelectStore: ((String) -> Unit)?
+    ) {
         private val json = Json {
             classDiscriminator = "message" // This field determines which subclass to use
             ignoreUnknownKeys = true // Ignore unknown fields in the JSON
@@ -166,18 +183,18 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                 if (PointOfSaleRepository.pointOfSaleMealzId == posId) {
                     this.onSelectStore?.let { it(posId) }
                 } else {
-                  Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
-                      message.posName?.let { posName ->
-                          message.supplierName?.let { supplierName ->
-                              StoreLocatorButtonViewModel.sendLocatorSelectEvent(
-                                  posId = posId,
-                                  posName = posName,
-                                  supplierName = supplierName
-                              )
-                          }
-                      }
-                      this.onSelectStore?.let { it(posId) }
-                  }
+                    Mealz.user.setStoreWithMealzIdWithCallBack(posId) {
+                        message.posName?.let { posName ->
+                            message.supplierName?.let { supplierName ->
+                                StoreLocatorButtonViewModel.sendLocatorSelectEvent(
+                                    posId = posId,
+                                    posName = posName,
+                                    supplierName = supplierName
+                                )
+                            }
+                        }
+                        this.onSelectStore?.let { it(posId) }
+                    }
                 }
             }
             message.supplierId?.let { supplierId ->

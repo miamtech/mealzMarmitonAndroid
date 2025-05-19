@@ -56,6 +56,7 @@ class MiamTemplateManager {
                         webview { view = MarmitonBasketTransferWebview() }
                     }
                 }
+                displayStoreLocatorButton = true
             }
             myMeal {
                 empty { view = MarmitonMyBasketEmpty() }
