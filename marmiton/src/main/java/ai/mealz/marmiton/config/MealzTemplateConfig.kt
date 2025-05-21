@@ -14,6 +14,8 @@ import ai.mealz.sdk.components.MiamTheme.myMeal
 import ai.mealz.sdk.components.MiamTheme.myProducts
 import ai.mealz.sdk.components.MiamTheme.recipeDetail
 import ai.mealz.sdk.components.MiamTheme.transferBasket
+import ai.mealz.sdk.components.myMeal.ItemSelectorCTAMealPosition
+import ai.mealz.sdk.components.myProducts.ItemSelectorCTAProductsPosition
 import ai.mealz.sdk.ressource.Image
 import ai.mealz.sdk.theme.Colors
 import androidx.compose.ui.graphics.Color
@@ -60,9 +62,11 @@ class MiamTemplateManager {
             myMeal {
                 empty { view = MarmitonMyBasketEmpty() }
                 recipeCard { success { view = MarmitonMyMealRecipeCard() } }
+                itemSelectorCTAPosition = ItemSelectorCTAMealPosition.BOTTOM
             }
             myProducts {
                 empty { view = MarmitonMyBasketEmpty() }
+                itemSelectorCTAProductsPosition = ItemSelectorCTAProductsPosition.BOTTOM
             }
         }
     }
