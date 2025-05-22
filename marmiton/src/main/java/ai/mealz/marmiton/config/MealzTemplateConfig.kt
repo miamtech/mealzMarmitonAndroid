@@ -62,6 +62,11 @@ class MiamTemplateManager {
                 recipeCard { success { view = MarmitonMyMealRecipeCard() } }
             }
             myProducts {
+                product {
+                    deleted {
+                        showDeletedProduct = true
+                    }
+                }
                 empty { view = MarmitonMyBasketEmpty() }
             }
         }
