@@ -39,10 +39,18 @@ class MainActivity : AppCompatActivity() {
             newFragment.show(ft, "dialog")
         }
 
-        /*Mealz.user.setStoreLocatorRedirection {
-            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val newFragment = StoreLocatorFragment()
-            newFragment.show(ft, "dialog")
+        Mealz.notifications.basketSummary.listen {
+            it.mutual
+        }
+
+        Mealz.notifications.productsCount.listen { productCount ->
+            val badge = navView.getOrCreateBadge(R.id.navigation_my_basket)
+            if (productCount > 0) {
+                badge.isVisible = true
+                badge.number = productCount
+            } else {
+                badge.isVisible = false
+            }
         }
     }
 }
