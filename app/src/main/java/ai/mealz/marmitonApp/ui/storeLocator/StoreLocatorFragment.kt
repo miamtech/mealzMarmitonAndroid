@@ -1,10 +1,12 @@
 package ai.mealz.marmitonApp.ui.storeLocator
 
+import ai.mealz.core.data.repository.pointOfSale.StoreLocatorRedirectionCallback
 import ai.mealz.marmiton.config.components.webview.MealzStoreLocatorWebView
 import ai.mealz.marmiton.config.components.webview.PermissionHelper
 import ai.mealz.marmitonApp.R
 import ai.mealz.marmitonApp.databinding.FragmentStoreLocatorBinding
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 
 
-class StoreLocatorFragment : DialogFragment() {
+class StoreLocatorFragment(
+    private val storeLocatorRedirectionCallback: StoreLocatorRedirectionCallback? = null
+) : DialogFragment() {
 
     private var _binding: FragmentStoreLocatorBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +38,7 @@ class StoreLocatorFragment : DialogFragment() {
         myWebView.urlToLoad = "file:///android_asset/index.html"
         myWebView.onShowChange = {
             dismiss()
+            storeLocatorRedirectionCallback?.onSelectionCanceled()
         }
 
         myWebView.onRequestPermission = {
@@ -42,6 +47,7 @@ class StoreLocatorFragment : DialogFragment() {
 
         myWebView.onSelectStore = { _ ->
             hasChanged = true
+            storeLocatorRedirectionCallback?.onStoreSelected()
             dismiss()
         }
 
@@ -61,6 +67,11 @@ class StoreLocatorFragment : DialogFragment() {
         }
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        storeLocatorRedirectionCallback?.onSelectionCanceled()
     }
 
     override fun getTheme(): Int {

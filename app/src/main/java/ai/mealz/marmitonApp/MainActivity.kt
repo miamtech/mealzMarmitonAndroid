@@ -33,10 +33,24 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         MealzManager.initialize(this)
-        Mealz.user.setStoreLocatorRedirection {
+        Mealz.user.setStoreLocatorRedirectionWithCallback { storeLocatorRedirectionCallback ->
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val newFragment = StoreLocatorFragment()
+            val newFragment = StoreLocatorFragment(storeLocatorRedirectionCallback = storeLocatorRedirectionCallback)
             newFragment.show(ft, "dialog")
+        }
+
+        Mealz.notifications.basketSummary.listen {
+            it.mutual
+        }
+
+        Mealz.notifications.productsCount.listen { productCount ->
+            val badge = navView.getOrCreateBadge(R.id.navigation_my_basket)
+            if (productCount > 0) {
+                badge.isVisible = true
+                badge.number = productCount
+            } else {
+                badge.isVisible = false
+            }
         }
     }
 }
