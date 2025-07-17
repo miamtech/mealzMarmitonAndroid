@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -26,10 +27,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonShowPriceRecipe2.bind(secondRecipeId, 4, true)
 
         view.findViewById<RecipeDetailButton>(R.id.recipe1_button).apply {
-            bind(firstRecipeId, isExtId = true)
+            bind(
+                recipeId = firstRecipeId,
+                isExtId = true,
+                navigateToProductsInBasket = {
+                    requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_my_basket
+                }
+            )
         }
+
         view.findViewById<RecipeDetailButton>(R.id.recipe2_button).apply {
-            bind(secondRecipeId)
+            bind(
+                recipeId = secondRecipeId,
+                isExtId = false,
+                navigateToProductsInBasket = {
+                    requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.navigation_my_basket
+                }
+            )
         }
 
         // Delete Cache button

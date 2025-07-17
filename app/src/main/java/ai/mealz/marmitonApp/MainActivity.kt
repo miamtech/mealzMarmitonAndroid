@@ -33,7 +33,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         MealzManager.initialize(this)
-        Mealz.user.setStoreLocatorRedirection {
+        Mealz.user.setStoreLocatorRedirectionWithCallback { storeLocatorRedirectionCallback ->
+            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+            val newFragment = StoreLocatorFragment(storeLocatorRedirectionCallback = storeLocatorRedirectionCallback)
+            newFragment.show(ft, "dialog")
+        }
+
+        /*Mealz.user.setStoreLocatorRedirection {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
             val newFragment = StoreLocatorFragment()
             newFragment.show(ft, "dialog")

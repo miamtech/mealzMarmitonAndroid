@@ -1,7 +1,6 @@
 package ai.mealz.marmiton.config
 
 import ai.mealz.marmiton.R
-import ai.mealz.marmiton.config.components.webview.MarmitonBasketTransferWebview
 import ai.mealz.marmiton.config.mealzTemplates.DefaultCounter
 import ai.mealz.marmiton.config.mealzTemplates.EmptyTemplate
 import ai.mealz.marmiton.config.mealzTemplates.myBasket.MarmitonMyBasketEmpty
@@ -13,9 +12,13 @@ import ai.mealz.sdk.components.MiamTheme.myBasket
 import ai.mealz.sdk.components.MiamTheme.myMeal
 import ai.mealz.sdk.components.MiamTheme.myProducts
 import ai.mealz.sdk.components.MiamTheme.recipeDetail
-import ai.mealz.sdk.components.MiamTheme.transferBasket
+import ai.mealz.sdk.components.baseComponent.segmentedButton.SegmentedButtonOption
+import ai.mealz.sdk.components.baseComponent.segmentedButton.SegmentedButtonRow
+import ai.mealz.sdk.components.baseComponent.segmentedButton.SegmentedButtonRowImp
 import ai.mealz.sdk.ressource.Image
 import ai.mealz.sdk.theme.Colors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 
 
@@ -38,7 +41,7 @@ class MiamTemplateManager {
                     sponsorBanner {
                         view = EmptyTemplate()
                     }
-                    swapper {
+                    segmentedButtonRow {
                         view = EmptyTemplate()
                     }
                     products {
@@ -51,9 +54,22 @@ class MiamTemplateManager {
                 }
             }
             myBasket {
-                transferBasket {
-                    success {
-                        webview { view = MarmitonBasketTransferWebview() }
+                segmentedButtonRow {
+                    view = object : SegmentedButtonRow {
+                        @Composable
+                        override fun Content(
+                            selectedItemIndex: Int,
+                            options: List<SegmentedButtonOption>,
+                            onSegmentedButtonSelected: (Int) -> Unit
+                        ) {
+                            LaunchedEffect(Unit) { onSegmentedButtonSelected(1) }
+                            SegmentedButtonRowImp().Content(
+                                selectedItemIndex = selectedItemIndex,
+                                options = options,
+                                onSegmentedButtonSelected = onSegmentedButtonSelected
+                            )
+                        }
+
                     }
                 }
             }
