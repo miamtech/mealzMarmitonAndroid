@@ -19,7 +19,7 @@ datetime = "0.4.0"
 # Others
 coil = "2.2.0"
 koin = "3.2.2"
-mealz = "1.0.0"
+mealz = "5.10.0"
 location = "21.0.1"
 
 

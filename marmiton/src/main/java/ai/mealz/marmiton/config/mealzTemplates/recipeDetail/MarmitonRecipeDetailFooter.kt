@@ -1,15 +1,13 @@
 package ai.mealz.marmiton.config.mealzTemplates.recipeDetail
 
 import ai.mealz.core.base.state.ComponentUiState
-import ai.mealz.core.di.MealzDI
+import ai.mealz.core.helpers.formatPrice
 import ai.mealz.core.localisation.Localisation
-import ai.mealz.core.services.Analytics
 import ai.mealz.core.viewModels.dynamicRecipeDetailFooter.IngredientStatusTypes
-import ai.mealz.sdk.components.price.formatPrice
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooter
 import ai.mealz.sdk.components.recipeDetail.success.footer.RecipeDetailSuccessFooterParameters
-import ai.mealz.sdk.ressource.Image.cart
-import ai.mealz.sdk.theme.Colors.primary
+import ai.mealz.sdk.ressource.Image
+import ai.mealz.sdk.theme.Colors
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,10 +21,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -76,7 +73,7 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
                     ComponentUiState.SUCCESS, ComponentUiState.LOADING -> Column {
                         if (params.priceStatus == ComponentUiState.LOADING) {
                             Box(Modifier.size(16.dp)) {
-                                CircularProgressIndicator(color = primary)
+                                CircularProgressIndicator(color = Colors.primary)
                             }
                         }
                         if (params.priceStatus != ComponentUiState.LOADING && priceOfProductsInBasket.value > 0) {
@@ -110,50 +107,48 @@ class MarmitonRecipeDetailFooter: RecipeDetailSuccessFooter {
 
     @Composable
     fun LoadingButton() {
-        Surface(shape = RoundedCornerShape(10.dp), color = ai.mealz.sdk.theme.Colors.primary) {
+        Surface(shape = RoundedCornerShape(10.dp), color = Colors.primary) {
             Row(
                 Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                CircularProgressIndicator(Modifier.size(20.dp), ai.mealz.sdk.theme.Colors.white)
+                CircularProgressIndicator(Modifier.size(20.dp), Colors.white)
             }
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun AddButton(text: String, action: () -> Unit = {}) {
         Surface(
             shape = RoundedCornerShape(10.dp),
-            color = ai.mealz.sdk.theme.Colors.primary,
+            color = Colors.primary,
             onClick = { action() }) {
             Row(
                 Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Image(painter = painterResource(cart), contentDescription = "$cart")
+                Image(painter = painterResource(Image.cart), contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = text, style = TextStyle(fontSize = 16.sp, color = ai.mealz.sdk.theme.Colors.white, fontWeight = FontWeight.Black))
+                Text(text = text, style = TextStyle(fontSize = 16.sp, color = Colors.white, fontWeight = FontWeight.Black))
             }
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun ContinueButton(text: String, action: () -> Unit = {}) {
         Surface(
             shape = RoundedCornerShape(10.dp),
-            border = BorderStroke(1.dp, ai.mealz.sdk.theme.Colors.white),
-            color = ai.mealz.sdk.theme.Colors.primary,
+            border = BorderStroke(1.dp, Colors.white),
+            color = Colors.primary,
             onClick = { action() }) {
             Row(
                 Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = text, style = TextStyle(fontSize = 16.sp, color = ai.mealz.sdk.theme.Colors.white, fontWeight = FontWeight.Black))
+                Text(text = text, style = TextStyle(fontSize = 16.sp, color = Colors.white, fontWeight = FontWeight.Black))
             }
         }
     }
