@@ -7,7 +7,6 @@ import ai.mealz.core.viewModels.storeLocatorButton.StoreLocatorButtonViewModel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -23,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class MealzStoreLocatorWebView @JvmOverloads constructor(
@@ -36,6 +36,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
     var onSelectStore: ((String) -> Unit)? = null
     var onRequestPermission: (() -> Unit)? = null
     var urlToLoad: String? = null
+    private val pageLoaded = AtomicBoolean(false)
 
     @Composable
     override fun Content() {
@@ -67,6 +68,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
                                 override fun onPageFinished(view: WebView?, url: String?) {
                                     super.onPageFinished(view, url)
                                     // Once the page finishes loading, fetch the location
+                                    pageLoaded.set(true)
                                     handleLocationPermission(context)
                                 }
                             }
@@ -84,7 +86,7 @@ class MealzStoreLocatorWebView @JvmOverloads constructor(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        recheckLocationPermission()
+        if (pageLoaded.get()) recheckLocationPermission()
     }
 
     private fun recheckLocationPermission(): Boolean {
